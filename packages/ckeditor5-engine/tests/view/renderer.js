@@ -45,6 +45,28 @@ describe( 'Renderer', () => {
 		renderer.domDocuments.add( document );
 	} );
 
+	describe( 'constructor()', () => {
+		it( 'should set the observable #isFocused property', () => {
+			const spy = sinon.spy();
+
+			expect( renderer.isFocused ).to.be.false;
+
+			renderer.on( 'change:isFocused', spy );
+			renderer.isFocused = true;
+			sinon.assert.calledOnce( spy );
+		} );
+
+		it( 'should set the observable #isSelecting property', () => {
+			const spy = sinon.spy();
+
+			expect( renderer.isSelecting ).to.be.false;
+
+			renderer.on( 'change:isSelecting', spy );
+			renderer.isSelecting = true;
+			sinon.assert.calledOnce( spy );
+		} );
+	} );
+
 	describe( 'markToSync', () => {
 		let viewRoot;
 
@@ -4239,6 +4261,57 @@ describe( 'Renderer', () => {
 
 			return true;
 		}
+	} );
+
+	// https://github.com/ckeditor/ckeditor5/issues/10562
+	describe( 'Blocking selection rendering while making selection in Blink (#10562)', () => {
+		describe( 'constructor()', () => {
+			it( 'should call #render() as soon as the user stops selecting in the document', () => {
+
+			} );
+
+			it( 'should not call #render() as soon as the user stops selecting in browsers other than Blink', () => {
+
+			} );
+		} );
+
+		describe( 'render()', () => {
+			describe( 'in Blink', () => {
+				it( 'should not remove the inline filler while the user is making selection', () => {
+
+				} );
+
+				it( 'should not add the inline filler while the user is making selection', () => {
+
+				} );
+			} );
+
+			describe( 'in browsers other than Blink', () => {
+				it( 'should remove the inline filler despite the user making selection', () => {
+
+				} );
+
+				it( 'should add the inline filler despite the user making selection', () => {
+
+				} );
+			} );
+		} );
+
+		describe( '_updateSelection()', () => {
+			describe( 'in Blink', () => {
+				it( 'should not update while the user is making selection', () => {
+
+				} );
+
+				it( 'should update despite the selection being made if there were some children marked to render', () => {
+
+				} );
+			} );
+
+			it( 'should update despite the selection being made in browsers other than Blink', () => {
+
+			} );
+		} );
 	} );
 
 	describe( '_markDescendantTextToSync', () => {
