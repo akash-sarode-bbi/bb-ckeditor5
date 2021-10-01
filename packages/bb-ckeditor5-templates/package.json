@@ -1,0 +1,26 @@
+{
+  "name": "@ckeditor/bb-ckeditor5-templates",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/templates.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akash-sarode-bbi/bb-ckeditor5.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akash-sarode-bbi/bb-ckeditor5/issues"
+  },
+  "homepage": "https://github.com/akash-sarode-bbi/bb-ckeditor5#readme",
+  "dependencies": {
+    "@ckeditor/ckeditor5-core": "^30.0.0",
+    "@ckeditor/ckeditor5-html-support": "^30.0.0",
+    "@ckeditor/ckeditor5-ui": "^30.0.0",
+    "@ckeditor/ckeditor5-widget": "^30.0.0"
+  }
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>CKEditor 5 Collaboration – Hello World!</title>
+
+        <style type="text/css">
+         #container {
+             /* To create the column layout. */
+             display: flex;
+
+             /* To make the container relative to its children. */
+             position: relative;
+         }
+
+         #container .ck.ck-editor {
+             /* To stretch the editor to max 700px
+                (just to look nice for this example but it can be any size). */
+             width: 100%;
+             max-width: 700px;
+         }
+
+         #sidebar {
+            /* Set some size for the sidebar (it can be any). */
+            min-width: 300px;
+
+            /* Add some distance. */
+            padding: 0 10px;
+         }
+        </style>
+    </head>
+
+    <div id="presence-list-container"></div>
+
+    <div id="container">
+        <div id="editor"></div>
+        <div id="sidebar"></div>
+    </div>
+
+    <script src="../build/ckeditor.js"></script>
+    <script>
+        const { ClassicEditor: Editor, EditorWatchdog } = CKEditor;
+
+        const watchdog = new EditorWatchdog( Editor );
+
+        watchdog.create( document.querySelector( '#editor' ), {
+            initialData: '<p>Let\'s edit this together!</p>',
+            // Do not include the `'comment'` or `'trackChanges'` buttons if you do not integrate them.
+            // If you use the image toolbar, you might want to add the `'comment'` button to the image toolbar, too.
+            // toolbar: [ 'bold', 'italic', 'uploadImage', '|', 'comment', 'trackChanges' ],
+            cloudServices: {
+                // PROVIDE CORRECT VALUES HERE:
+                tokenUrl: 'https://82124.cke-cs.com/token/dev/aa191f84ea2fd5261c98052704d0075dd511a39f573798760d3e1d27f387',
+                uploadUrl: 'https://82124.cke-cs.com/easyimage/upload/',
+                webSocketUrl: 'wss://82124.cke-cs.com/ws'
+            },
+            collaboration: {
+              channelId: 'document-id'
+            },
+            sidebar: {
+                container: document.querySelector( '#sidebar' )
+            },
+            presenceList: {
+                container: document.querySelector( '#presence-list-container' )
+            },
+						templates: [ {
+			'title': 'Arzneimittel pocket Table Template',
+			'image': 'template2.gif',
+			'description': 'A table template for Arzneimittel pocket.',
+			'html': '<form name="fm"> <div class="ws-crossref"> <div class="paragraph">Sie&shy;he auch <a href="">Haupt&shy;ein&shy;trag</a> </div> </div> <table class="info"> <colgroup> <col class="item" /> <col class="itemvalue" /> </colgroup> <tbody> <tr> <td><b>HWZ</b></td> <td></td> </tr> </tbody> </table> <div class="head"> <div class="headline">Han&shy;dels&shy;na&shy;men, Ap&shy;pli&shy;ka&shy;ti&shy;ons&shy;for&shy;men</div> </div> <div class="detail"> <div class="paragraph"></div> </div> <div class="head"> <div class="fi_but"><a href="">FI </a></div> <div class="headline">In&shy;di&shy;ka&shy;tio&shy;nen, Do&shy;sie&shy;run&shy;gen</div> </div> <div class="detail"> <div class="paragraph"></div> </div> </form>'
+		}, {
+			'title': 'Arzneimittel pocket DANI-RECHNER Table Template',
+			'image': 'template2.gif',
+			'description': 'A table template for  DANI-RECHNER of Arzneimittel pocket.',
+			'html': '<form name="fm"> <table class="info"> <colgroup> <col class="item" /> <col class="itemvalue" /> <col class="item" /> <col class="itemvalue" /> </colgroup> <tbody> <tr> <td><b>Rp</b></td> <td>&nbsp;</td> <td><b>HWZ</b></td> <td>&nbsp;</td> </tr> <tr> <td><b>Q<font size="-8pt">0</font></b></td> <td>&nbsp;</td> <td><b>PPB</b></td> <td>&nbsp;</td> </tr> <tr> <td colspan="2"><a href="">DANI-RECH&shy;NER</a></td> <td colspan="2"><a href="">DANI-DATEN</a></td> </tr> <tr> <td><b>PRC</b></td> <td>&nbsp;</td> <td><b>Lact</b></td> <td>&nbsp;</td> </tr> </tbody> </table> <div class="gap">&nbsp;</div> <div class="head"> <div class="headline">Han&shy;dels&shy;na&shy;men, Ap&shy;pli&shy;ka&shy;ti&shy;ons&shy;for&shy;men</div> </div> <div class="detail"> <div class="paragraph">&nbsp;</div> </div> <div class="gap">&nbsp;</div> <div class="head"> <div class="fi_but"><a href="">FI </a></div> <div class="headline">In&shy;di&shy;ka&shy;tio&shy;nen, Do&shy;sie&shy;run&shy;gen</div> </div> <div class="detail"> <div class="paragraph">&nbsp;</div> </div> <div class="gap">&nbsp;</div> <div class="head"><!--<a href=""><div class="fi_but">FI</div></a>--> <div class="headline">Wirk&shy;me&shy;cha&shy;nis&shy;men, Wir&shy;kun&shy;gen</div> </div> <div class="detail"> <div class="paragraph">&nbsp;</div> </div> <div class="gap">&nbsp;</div> <div class="head"> <div class="fi_but"><a href="">FI </a></div> <div class="headline">Un&shy;er&shy;w&uuml;nsch&shy;te Wir&shy;kun&shy;gen</div> </div> <div class="detail"> <div class="paragraph">&nbsp;</div> </div> <div class="gap">&nbsp;</div> <div class="head"> <div class="fi_but"><a href="">FI </a></div> <div class="headline">Kon&shy;tra&shy;in&shy;di&shy;ka&shy;tio&shy;nen</div> </div> <div class="detail"> <div class="paragraph">&nbsp;</div> </div> </form>'
+		}, {
+			'title': 'ESC Recommendation Table Template',
+			'image': 'template3.gif',
+			'description': 'A table template for ESC recommendation.',
+			'html': '<table class="table"> <colgroup><col width="64%" /> <col width="18%" />  <col width="18%" /> </colgroup> <tbody> <tr> <th class="table-header1" colspan="3">  <p class="table-title1">Rec&shy;om&shy;men&shy;da&shy;tions for <-- enter here specific name --></p> </th> </tr>   <tr>   <th class="table-header2">  <p class="table-title2">Rec&shy;om&shy;men&shy;da&shy;tions</p> </th> <th class="table-header2"> <p class="table-title2-cent">Class<span class="text-sup">a</span></p></th>   <th class="table-header2"> <p class="table-title2-cent">Lev&shy;el<span class="text-sup">b</span></p> </th> </tr>  <tr>  <th class="table-header3" colspan="3">    <p class="table-title3">&nbsp;</p> </th> </tr>         <tr>    <td class="col-gray2">    <p class="table-text">&nbsp;</p>  </td>  <td class="class-i">  <p>I</p>  </td>    <td class="level-a">   <p>A</p>    </td> </tr>   <tr>   <td class="col-gray2">   <p class="table-text">&nbsp;</p>  </td>  <td class="class-ii-a">     <p>IIa</p>  </td>  <td class="level-b">   <p>B</p>   </td>  </tr> <tr>   <td class="col-gray2"><p class="table-text">&nbsp;</p>    </td>    <td class="class-ii-b">    <p>IIb</p>    </td>    <td class="level-c">    <p>C</p>    </td>   </tr>  <tr>    <td class="col-gray2">    <p class="table-text">&nbsp;</p>    </td>    <td class="class-iii">    <p>III</p>    </td>    <td class="level-a">                <p>A</p>  </td>  </tr> </tbody>    </table>'
+		}, {
+			'title': 'AHA Recommendation Table Template',
+			'image': 'template3.gif',
+			'description': 'A table template for AHA recommendation.',
+			'html': '<table class="recomm-table"> <colgroup> <col width="64%" /> <col width="18%" /> <col width="18%" /> </colgroup> <tbody> <tr> <th class="recomm-header1" colspan="3"> <p class="table-title1">Rec&shy;om&shy;men&shy;da&shy;tions for&nbsp;&lt;-- enter here specific name --&gt;</p> </th> </tr> <tr> <td class="recomm-header2"> <p class="table-title2">Rec&shy;om&shy;men&shy;da&shy;tion</p> </td> <td class="recomm-header2"> <p class="table-title2-cent"><a href="abbr_COR">COR</a></p> </td> <td class="recomm-header2"> <p class="table-title2-cent"><a href="abbr_LOE">LOE</a></p> </td> </tr> <tr> <td> <p >&nbsp;</p> </td> <td class="class1"> <p class="text">I</p> </td> <td class="levelA"> <p class="text">A</p> </td> </tr> <tr> <td> <p >&nbsp;</p> </td> <td class="class2a"> <p class="text">IIa</p> </td> <td class="levelB"> <p class="text">B</p> </td> </tr> <tr> <td> <p >&nbsp;</p> </td> <td class="class2b"> <p class="text">IIb</p> </td> <td class="levelC"> <p class="text">C</p> </td> </tr> <tr> <td>&nbsp;</td> <td class="class3"><span class="text">III</span></td> <td class="levelC"><span class="text">C</span></td> </tr> </tbody> </table>'
+		}, {
+			'title': 'ACC Recommendation Table Template',
+			'image': 'template3.gif',
+			'description': 'A table template for ACC recommendation.',
+			'html': '<table class="table"> <colgroup> <col width="60%" /> <col width="20%" /> <col width="20%" /> </colgroup> <tbody> <tr> <th class="table-header1" colspan="3"> <p class="table-title1"><!---Sec&shy;tion 3.5.--->Rec&shy;om&shy;men&shy;da&shy;tions for&nbsp;&lt;-- enter here specific name --&gt;</p> </th> </tr> <tr> <th class="table-header2"> <p class="table-title2">Rec&shy;om&shy;men&shy;da&shy;tions</p> </th> <th class="table-header2"> <p class="table-title2-cent"><a href="abbr_COR">COR</a></p> </th> <th class="table-header2"> <p class="table-title2-cent"><a href="abbr_LOE">LOE</a></p> </th> </tr> <tr> <td> <p >&nbsp;</p> </td> <td class="class-1"> <p class="table-text-cent">I</p> </td> <td class="class-a"> <p class="table-text-cent">A</p> </td> </tr> <tr> <td> <p >&nbsp;</p> </td> <td class="class-2a"> <p class="table-text-cent">IIa</p> </td> <td class="class-b"> <p class="table-text-cent">B</p> </td> </tr> <tr> <td> <p >&nbsp;</p> </td> <td class="class-2b"> <p class="table-text-cent">IIa</p> </td> <td class="class-c"> <p class="table-text-cent">C</p> </td> </tr> <tr> <td> <p >&nbsp;</p> </td> <td class="class-3"> <p class="table-text-cent">III</p> </td> <td class="class-b"> <p class="table-text-cent">B</p> </td> </tr> </tbody> </table>'
+		}, {
+			'title': 'ESVS Recommendation Table Template',
+			'image': 'template3.gif',
+			'description': 'A table template for ESVS recommendation.',
+			'html': '<table class="table"> <colgroup> <col width="55%" /> <col width="14%" /> <col width="14%" /> <col width="17%" /> </colgroup> <tbody> <tr> <td class="col-gray1"> <p class="table-text"><span class="bold">Rec&shy;om&shy;men&shy;da&shy;tion</span></p> </td> <td class="col-gray1"> <p class="table-title2-cent"><a href="abbr_Cor">Cor</a></p> </td> <td class="col-gray1"> <p class="table-title2-cent"><a href="abbr_Loe">Loe</a></p> </td> <td class="col-gray1"> <p class="table-title2-cent"><a href="abbr_Ref">Ref</a></p> </td> </tr> <tr> <td class="col-gray1"> <p class="table-text">&nbsp;</p> </td> <td class="class-i"> <p class="text">I</p> </td> <td class="level-c"> <p class="text">C</p> </td> <td class="col-gray1"> <p class="text-cent"><a href="ref_no">Ref No.</a></p> </td> </tr> </tbody> </table>'
+		} ]
+        } );
+    </script>
+</html>
