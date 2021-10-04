@@ -39,7 +39,8 @@
     "@ckeditor/ckeditor5-table": "^30.0.0",
     "@ckeditor/ckeditor5-theme-lark": "^30.0.0",
     "@ckeditor/ckeditor5-typing": "^30.0.0",
-    "@ckeditor/ckeditor5-watchdog": "^30.0.0"
+    "@ckeditor/ckeditor5-watchdog": "^30.0.0",
+    "@ckeditor/bb-ckeditor5-templates": "https://gitpkg.now.sh/akash-sarode-bbi/bb-ckeditor5/packages/bb-ckeditor5-templates?stable"
   },
   "devDependencies": {
     "@ckeditor/ckeditor5-dev-utils": "^25.4.0",
