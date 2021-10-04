@@ -68,6 +68,6 @@
   "scripts": {
     "build": "webpack --mode production",
     "preversion": "npm run build",
-    "prepare": "npm run build"
+    "postinstall": "npm install --ignore-scripts && npm run build"
   }
 }
