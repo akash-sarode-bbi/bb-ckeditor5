@@ -1,5 +1,3 @@
-import EditorWatchdog from '@ckeditor/ckeditor5-watchdog/src/editorwatchdog';
-import ClassicEditorBase from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
 import DecoupledEditorBase from '@ckeditor/ckeditor5-editor-decoupled/src/decouplededitor';
 
 import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
@@ -61,8 +59,10 @@ import PresenceList from '@ckeditor/ckeditor5-real-time-collaboration/src/presen
 
 import Templates from '@ckeditor/bb-ckeditor5-templates';
 
+export default class CKEditorCS extends DecoupledEditorBase {}
+
 // Plugins to include in the build.
-const builtinPlugins = [
+CKEditorCS.builtinPluginss = [
 	Essentials,
 	UploadAdapter,
 	Autoformat,
@@ -112,7 +112,7 @@ const builtinPlugins = [
 ];
 
 // Editor configuration.
-const defaultConfig = {
+CKEditorCS.defaultConfig = {
 	toolbar: {
 		items: [
 			'heading',
@@ -189,15 +189,3 @@ const defaultConfig = {
 	// This value must be kept in sync with the language defined in webpack.config.js.
 	language: 'en'
 };
-
-class ClassicEditor extends ClassicEditorBase {}
-
-ClassicEditor.builtinPlugins = builtinPlugins;
-ClassicEditor.defaultConfig = defaultConfig;
-
-class DecoupledEditor extends DecoupledEditorBase {}
-
-DecoupledEditor.builtinPlugins = builtinPlugins;
-DecoupledEditor.defaultConfig = defaultConfig;
-
-export default { ClassicEditor, DecoupledEditor, EditorWatchdog };
