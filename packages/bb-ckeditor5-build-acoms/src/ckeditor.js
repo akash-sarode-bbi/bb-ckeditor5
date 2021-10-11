@@ -44,17 +44,11 @@ import SpecialCharacters from '@ckeditor/ckeditor5-special-characters/src/specia
 import SpecialCharactersEssentials from '@ckeditor/ckeditor5-special-characters/src/specialcharactersessentials';
 
 import RealTimeCollaborativeEditing from '@ckeditor/ckeditor5-real-time-collaboration/src/realtimecollaborativeediting';
-
 // The following plugin enables real-time collaborative comments.
-// You do not need to import it if you do not want to integrate it.
 import RealTimeCollaborativeComments from '@ckeditor/ckeditor5-real-time-collaboration/src/realtimecollaborativecomments';
-
 // The following plugin enables real-time collaborative track changes and is optional.
-// You do not need to import it if you do not want to integrate it.
 import RealTimeCollaborativeTrackChanges from '@ckeditor/ckeditor5-real-time-collaboration/src/realtimecollaborativetrackchanges';
-
 // The following plugin enables users presence list and is optional.
-// You do not need to import it if you do not want to integrate it.
 import PresenceList from '@ckeditor/ckeditor5-real-time-collaboration/src/presencelist';
 
 import Templates from '@ckeditor/bb-ckeditor5-templates';
@@ -62,7 +56,7 @@ import Templates from '@ckeditor/bb-ckeditor5-templates';
 export default class CKEditorCS extends DecoupledEditorBase {}
 
 // Plugins to include in the build.
-CKEditorCS.builtinPluginss = [
+CKEditorCS.builtinPlugins = [
 	Essentials,
 	UploadAdapter,
 	Autoformat,
