@@ -1,63 +1,67 @@
-Akash's system 
-  * NOTE - in case any of the problems you guys face are 
-    system or environment specific
+# Akash's system
+  _NOTE - in case any of the problems you guys face are 
+    system or environment specific,  refer following config_
 
   - Windows 10 / AMD
   - Node v14.15.5
   - npm 7.21.1
   - yarn 1.22.11
 
+<br/>
 
-Requirements 
+# Requirements 
   - node >=12.0.0
   - npm  >=5.7.1
   - yarn
   - git
   - gitpkg - https://gitpkg.vercel.app/ 
 
+<br/>
 
-Read
-  - package / dependency managers
+# Read
+  - **package / dependency managers**
     - yarn - we will be using yarn, npm workspaces are BUGGY 
     - npm (optional) - testing / installing build in any other project you can use npm
       as npm is mostly used in projects
     - npm vs yarn - both are basically same with differeces like (npm install / yarn add)
 
-  - yarn / npm workspaces - I liked npm docs better, refer those if you want to
-  *** BUT, WE'LL BE USING YARN WORKSPACES ONLY ***
+  - **yarn / npm workspaces** - I liked npm docs better, refer those if you want to 
+  <span style="color:red">
+    **BUT, WE'LL BE USING YARN WORKSPACES ONLY**
+  </span>
 
-  - Monolithic Repositories - Our bb-ckeditor5 repository uses a monolithic structure
+  - **Monolithic Repositories** - Our bb-ckeditor5 repository uses a monolithic structure
     in essence, monolithic repositories are independent projects / packages developed 
     under single git repository which otherwise would be hosted on multiple git repos.
     THAT IS WHY, WE NEED YARN WORKSPACES, TO WORK WITH MONOREPOS.
 
-  - npm link (OPTIONAL) - prior to workspaces, npm / yarn used links to link packages
+  - **npm link (OPTIONAL)** - prior to workspaces, npm / yarn used links to link packages
     so that they can be tested locally without continuously rebuilding them, 
     with workspaces we do not have to worry about them, but it'll be a plus to know 
-    what npm link is and how it is simplified with workspaces, read more here - 
+    what npm link is and how it is simplified with workspaces, read more here - https://docs.npmjs.com/cli/v7/commands/npm-link
 
-    https://docs.npmjs.com/cli/v7/commands/npm-link
-
-  - gitpkg - to use our git subfolders(./packages/**) as packages in other projects eg acoms
+  - **gitpkg** - to use our git subfolders(./packages/**) as packages in  other projects eg acoms
     as npm is again BUGGY with this. go through its docs, not a lot to read!
     WE'LL NEED TO ADD CUSTOM SCRIPT FROM GITPKG FOR POSTINSTALL
 
+<br/>
 
-
-** SETTING UP DEVELOPMENT ENVIRONMENT
+# Setting up development environment
   - git clone bb-ckeditor5 git repository
   - yarn install 
 
+<br/>    
 
-** NAMING PACKAGES (BUILDS / PLUGINS)
+# Naming packages (Builds / Plugins)
   - when copying existing package.json for builds or creating new one for a plugin
   - following this naming scheme - @ckeditor/bb-ckeditor5-( build/plugin-name )-( build-name/* )
   - @ckeditor is the scope and makes it easier to find the package in the node_modules
   - I have used `bb` before `ckeditor5` to specify packages that we have developed
-  - depending on the type of the package include `build` in the package name or just the plugin name
+  - depending on the type of the package include `build` in the package name or just the plugin name  
 
+<br/>   
  
-I. creating a new build
+# creating a new build
   - copy contents of any existing build you'd like to extend eg ./packages/ckeditor5-build-classic
   - make changes to package.json according to the new buid eg name, description etc, rest can stay the same
   - check webpack.config.js output.library for exporting with a custom name
@@ -66,15 +70,16 @@ I. creating a new build
   - make sure to add additional plugins to dependency list (yarn add ...)
   - more about adding custom plugins to build in II. creating a custom plugin section
   
-  - gitpkg custom script - replace - postinstall - npm install --ignore-scripts && npm run build
-
+  - once tested locally, push build to git
+  - then copy link to subfolder of the build and go to https://gitpkg.vercel.app/ 
+  - do not forget to add custom script as shown in screenshot custom script - replace - postinstall - npm install -ignore-scripts && npm run build
+  - ![](gitpkg.jpg)
   - this build can now be installed in any node project
+  - _NOTE - when using postinstall script gitpkg yarn and npm commands wont work, as shown in screenshot, copy package name from its package.json, add the dependency manually in your project and then run npm install_
 
+<br/>
 
-
-
-
-II. creating a new plugin
+# creating a new plugin
   - cd packages
   - mkdir plugin name
   - yarn init -y
@@ -93,14 +98,11 @@ II. creating a new plugin
 
     then you can use the plugin without adding as a dependency in a build
 
-    after testing the plugin locally, push it to git and use gitpkg
+    after testing the plugin locally, push it to git and use gitpkg like shown in below screenshot
+
+    ![gitpkg plugin](gitpkg-plugin.jpg)
 
     now that plugin can be added as dependency with the gitpkg link
 
-
-
-  ** once plugin is hosted on git, cant test local changes to it
-
-  ** toolbar-item-not-available 
-    - check for spelling mistakes - eg Editor.builtInPlugins(s - this mistake wont load any plugins)
+<br/>
 
