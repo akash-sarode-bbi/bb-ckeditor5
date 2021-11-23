@@ -7,8 +7,7 @@
 	
   <style>
 		body {
-			max-width: 1000px;
-			margin: 20px auto;
+			padding: 20px;
 		}
 
     .editable-container-super {
@@ -38,37 +37,135 @@
     }
 
     .editable-container .ck-editor__editable {
-      min-height: 200px;
+      min-height: 19em;
       padding: 2em;
       border: 1px #D3D3D3 solid;
       border-radius: var(--ck-border-radius);
       background: white;
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     }
+
+    .editor-container {
+        border: 1px solid var(--ck-color-base-border);
+        border-radius: var(--ck-border-radius);
+        box-shadow: 2px 2px 0px hsla( 0, 0%, 0%, 0.1 );
+        margin: 1.5em 0;
+        padding: 1em;
+    }
+
+    .editor-container .ck.ck-editor__editable_inline {
+        border: 1px solid hsla( 0, 0%, 0%, 0.15 );
+        transition: background .5s ease-out;
+        min-height: 6em;
+        margin-bottom: 1em;
+    }
+
+    .word-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .word-container-chart {
+        margin-right: 1em;
+    }
+
+    .word-container-chart-circle {
+        transform: rotate(-90deg);
+        transform-origin: center;
+    }
+
+    .word-container-chart-characters {
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .word-container-word-count {
+        flex-grow: 1;
+        opacity: .5;
+    }
+
+    .word-container-limit-close .word-container-chart-circle {
+        stroke: hsl( 30, 100%, 52% );
+    }
+
+    .word-container-limit-exceeded .ck.ck-editor__editable_inline {
+        background: hsl( 0, 100%, 97% );
+    }
+
+    .word-container-limit-exceeded .word-container-chart-circle {
+        stroke: hsl( 0, 100%, 52% );
+    }
+
+    .word-container-limit-exceeded .word-container-chart-characters {
+        fill: hsl( 0, 100%, 52% );
+    }
 	</style>
 </head>
 <body>
 
   <h1>CKEditor 5 – ACoMS build with Document Editor</h1>
+  <div class="editor-container">
+    <div id="presence-list-container"></div>
+    <div class="toolbar-container"></div>
 
-  <div id="presence-list-container"></div>
-  <div class="toolbar-container"></div>
 
+    <div class="editable-container-super">
+      <div class="editable-container"></div>
+      <div id="sidebar"></div>
+    </div>
 
-  <div class="editable-container-super">
-    <div class="editable-container"></div>
-    <div id="sidebar"></div>
+    <div class="word-container">
+      <span class="word-container-word-count"></span>
+      <svg class="word-container-chart" viewbox="0 0 40 40" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+          <circle stroke="hsl(0, 0%, 93%)" stroke-width="3" fill="none" cx="20" cy="20" r="17" />
+          <circle class="word-container-chart-circle" stroke="hsl(202, 92%, 59%)" stroke-width="3" stroke-dasharray="134,534" stroke-linecap="round" fill="none" cx="20" cy="20" r="17" />
+          <text class="word-container-chart-characters" x="50%" y="50%" dominant-baseline="central" text-anchor="middle"></text>
+      </svg>
+    </div>
   </div>
 
   <script src="../build/ckeditor.js"></script>
   <script>
     const editorData = `<p>ACoMS document editor build test</p>`;
-
+    const maxCharacters = 120;
+    const container = document.querySelector( '.editor-container' );
+    const progressCircle = document.querySelector( '.word-container-chart-circle' );
+    const charactersBox = document.querySelector( '.word-container-chart-characters' );
+    const wordsBox = document.querySelector( '.word-container-word-count' );
+    const circleCircumference = Math.floor( 2 * Math.PI * progressCircle.getAttribute( 'r' ) );
     CKEditorCS.create( editorData, {
+      // Editor configuration.
+      wordCount: {
+        onUpdate: stats => {
+            const charactersProgress = stats.characters / maxCharacters * circleCircumference;
+            const isLimitExceeded = stats.characters > maxCharacters;
+            const isCloseToLimit = !isLimitExceeded && stats.characters > maxCharacters * .8;
+            const circleDashArray = Math.min( charactersProgress, circleCircumference );
+            // Set the stroke of the circle to show how many characters were typed.
+            progressCircle.setAttribute( 'stroke-dasharray', `${ circleDashArray },${ circleCircumference }` );
+
+            // Display the number of characters in the progress chart. When the limit is exceeded,
+            // display how many characters should be removed.
+            if ( isLimitExceeded ) {
+              charactersBox.textContent = `-${ stats.characters - maxCharacters }`;
+            } else {
+              charactersBox.textContent = stats.characters;
+            }
+
+            wordsBox.textContent = `Words in the post: ${ stats.words }`;
+
+            // If the content length is close to the character limit, add a CSS class to warn the user.
+            container.classList.toggle( 'word-container-limit-close', isCloseToLimit );
+
+            // If the character limit is exceeded, add a CSS class that makes the content's background red.
+            container.classList.toggle( 'word-container-limit-exceeded', isLimitExceeded );
+        }
+      },
       cloudServices: {
-        tokenUrl: 'https://82124.cke-cs.com/token/dev/aa191f84ea2fd5261c98052704d0075dd511a39f573798760d3e1d27f387',
-        uploadUrl: 'https://82124.cke-cs.com/easyimage/upload/',
-        webSocketUrl: 'wss://82124.cke-cs.com/ws',
+        tokenUrl: 'https://82590.cke-cs.com/token/dev/013ddc49d2d1152c7543ff5f88ce2929f62c52ea09fc6c16d090dcc46dcc',
+        uploadUrl: 'https://82590.cke-cs.com/easyimage/upload/',
+        webSocketUrl: 'wss://82590.cke-cs.com/ws',
       },
       collaboration: {
         channelId: "test-decoupled-editor-10"

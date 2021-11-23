@@ -38,7 +38,8 @@
     "@ckeditor/ckeditor5-special-characters": "^30.0.0",
     "@ckeditor/ckeditor5-table": "^30.0.0",
     "@ckeditor/ckeditor5-theme-lark": "^30.0.0",
-    "@ckeditor/ckeditor5-typing": "^30.0.0"
+    "@ckeditor/ckeditor5-typing": "^30.0.0",
+    "@ckeditor/ckeditor5-word-count": "^30.0.0"
   },
   "devDependencies": {
     "@ckeditor/ckeditor5-dev-utils": "^25.4.0",

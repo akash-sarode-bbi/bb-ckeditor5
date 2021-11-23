@@ -35,8 +35,9 @@ import { TextTransformation } from 'ckeditor5/src/typing';
 import CloudServices from '@ckeditor/ckeditor5-cloud-services/src/cloudservices';
 import SourceEditing from '@ckeditor/ckeditor5-source-editing/src/sourceediting';
 import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
-
+import WordCount from '@ckeditor/ckeditor5-word-count/src/wordcount';
 import Font from '@ckeditor/ckeditor5-font/src/font';
+import FindAndReplace from '@ckeditor/ckeditor5-find-and-replace/src/findandreplace';
 
 // Core plugin that provides the API for the management of special characters and their categories.
 import SpecialCharacters from '@ckeditor/ckeditor5-special-characters/src/specialcharacters';
@@ -100,7 +101,8 @@ CKEditorCS.builtinPlugins = [
 	PresenceList,
 	SourceEditing,
 	Alignment,
-
+	WordCount,
+	FindAndReplace,
 	// GeneralHTMLSupport plugin is automatically initialized by the templates plugin
 	Templates
 ];
@@ -109,10 +111,11 @@ CKEditorCS.builtinPlugins = [
 CKEditorCS.defaultConfig = {
 	toolbar: {
 		items: [
-			'heading',
+			'undo',
+			'redo',
 			'|',
-			'fontSize',
 			'fontFamily',
+			'fontSize',
 			'fontColor',
 			'fontBackgroundColor',
 			'|',
@@ -123,27 +126,29 @@ CKEditorCS.defaultConfig = {
 			'subscript',
 			'superscript',
 			'horizontalLine',
+			'|',
 			'highlight',
 			'specialCharacters',
-			'link',
+			'|',
+			'heading',
+			'|',
+			'findAndReplace',
+			'|',
 			'bulletedList',
 			'numberedList',
-			'|',
 			'outdent',
 			'indent',
+			'alignment',
 			'|',
+			'link',
 			'uploadImage',
 			'blockQuote',
 			'insertTable',
 			'mediaEmbed',
-			'undo',
-			'redo',
-			'alignment',
+			'templates',
 			'|',
 			'comment',
-			'trackChanges',
-
-			'templates'
+			'trackChanges'
 		]
 	},
 	image: {
