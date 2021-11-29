@@ -54,7 +54,7 @@ import PresenceList from '@ckeditor/ckeditor5-real-time-collaboration/src/presen
 
 import Templates from '@ckeditor/bb-ckeditor5-templates';
 
-export default class CKEditorCS extends DecoupledEditorBase {}
+class CKEditorCS extends DecoupledEditorBase {}
 
 // Plugins to include in the build.
 CKEditorCS.builtinPlugins = [
@@ -188,3 +188,5 @@ CKEditorCS.defaultConfig = {
 	// This value must be kept in sync with the language defined in webpack.config.js.
 	language: 'en'
 };
+
+export default CKEditorCS;
