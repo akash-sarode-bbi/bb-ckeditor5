@@ -1,3 +1,4 @@
+import EditorWatchdog from '@ckeditor/ckeditor5-watchdog/src/editorwatchdog';
 import DecoupledEditorBase from '@ckeditor/ckeditor5-editor-decoupled/src/decouplededitor';
 
 import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
@@ -189,4 +190,4 @@ CKEditorCS.defaultConfig = {
 	language: 'en'
 };
 
-export default CKEditorCS;
+export default { CKEditorCS, EditorWatchdog };

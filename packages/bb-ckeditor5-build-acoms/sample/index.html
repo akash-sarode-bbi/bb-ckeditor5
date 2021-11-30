@@ -134,8 +134,29 @@
     const charactersBox = document.querySelector( '.word-container-chart-characters' );
     const wordsBox = document.querySelector( '.word-container-word-count' );
     const circleCircumference = Math.floor( 2 * Math.PI * progressCircle.getAttribute( 'r' ) );
-    CKEditorCS.create( editorData, {
-      // Editor configuration.
+
+    const { CKEditorCS: Editor, EditorWatchdog } = CKEditorCS;
+    
+    // Create a watchdog for the given editor type.
+    const watchdog = new EditorWatchdog( Editor );
+
+    // Define a callback that will create an editor instance and return it.
+    watchdog.setCreator( ( elementOrData, editorConfig ) => {
+        return Editor.
+          create( elementOrData, editorConfig )
+          .then( editor => {
+            // editor = watchdog.editor
+            window.editor = editor;
+            document.querySelector( '.toolbar-container' ).appendChild( editor.ui.view.toolbar.element );
+            document.querySelector( '.editable-container' ).appendChild( editor.ui.view.editable.element );
+            return editor;
+          } )
+          .catch( error => {
+            console.error( 'There was a problem initializing the editor.', error );
+          } );
+    } );
+
+    editorConfig = {
       wordCount: {
         onUpdate: stats => {
             const charactersProgress = stats.characters / maxCharacters * circleCircumference;
@@ -214,16 +235,10 @@
           'html': '<table class="table"> <colgroup> <col width="55%" /> <col width="14%" /> <col width="14%" /> <col width="17%" /> </colgroup> <tbody> <tr> <td class="col-gray1"> <p class="table-text"><span class="bold">Rec&shy;om&shy;men&shy;da&shy;tion</span></p> </td> <td class="col-gray1"> <p class="table-title2-cent"><a href="abbr_Cor">Cor</a></p> </td> <td class="col-gray1"> <p class="table-title2-cent"><a href="abbr_Loe">Loe</a></p> </td> <td class="col-gray1"> <p class="table-title2-cent"><a href="abbr_Ref">Ref</a></p> </td> </tr> <tr> <td class="col-gray1"> <p class="table-text">&nbsp;</p> </td> <td class="class-i"> <p class="text">I</p> </td> <td class="level-c"> <p class="text">C</p> </td> <td class="col-gray1"> <p class="text-cent"><a href="ref_no">Ref No.</a></p> </td> </tr> </tbody> </table>'
         }
       ]
-    } )
-      .then( editor => {
-        window.editor = editor;
+    };
 
-        document.querySelector( '.toolbar-container' ).appendChild( editor.ui.view.toolbar.element );
-        document.querySelector( '.editable-container' ).appendChild( editor.ui.view.editable.element );
-      } )
-      .catch( error => {
-        console.error( 'There was a problem initializing the editor.', error );
-      } );
+    // Create an editor instance and start watching it.
+    watchdog.create( editorData, editorConfig );
   </script>
 </body>
 </html>
