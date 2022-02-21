@@ -145,10 +145,14 @@
         return Editor.
           create( elementOrData, editorConfig )
           .then( editor => {
-            // editor = watchdog.editor
             window.editor = editor;
+            // remove all child nodes
+            removeChilds(document.querySelector( '.toolbar-container' ));
+            removeChilds(document.querySelector( '.editable-container' ));
             document.querySelector( '.toolbar-container' ).appendChild( editor.ui.view.toolbar.element );
             document.querySelector( '.editable-container' ).appendChild( editor.ui.view.editable.element );
+            window.editor = editor;
+                    editor.execute('trackChanges');
             return editor;
           } )
           .catch( error => {
@@ -157,6 +161,7 @@
     } );
 
     editorConfig = {
+      // toolbar: {shouldNotGroupWhenFull: true},
       wordCount: {
         onUpdate: stats => {
             const charactersProgress = stats.characters / maxCharacters * circleCircumference;
@@ -184,7 +189,7 @@
         }
       },
       cloudServices: {
-        tokenUrl: 'https://82590.cke-cs.com/token/dev/013ddc49d2d1152c7543ff5f88ce2929f62c52ea09fc6c16d090dcc46dcc',
+        tokenUrl: 'https://82590.cke-cs.com/token/dev/eda0ba97d09155181d6b1fdc47024b4a2f4ed954e1584aab61d96344abe6',
         uploadUrl: 'https://82590.cke-cs.com/easyimage/upload/',
         webSocketUrl: 'wss://82590.cke-cs.com/ws',
       },
@@ -239,6 +244,12 @@
 
     // Create an editor instance and start watching it.
     watchdog.create( editorData, editorConfig );
+
+    const removeChilds = (parent) => {
+      while (parent.lastChild) {
+          parent.removeChild(parent.lastChild);
+      }
+    };
   </script>
 </body>
 </html>

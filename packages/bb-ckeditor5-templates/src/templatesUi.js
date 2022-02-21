@@ -6,6 +6,7 @@ import TemplateIcon from '../icons/template.svg';
 
 export default class TemplatesUI extends Plugin {
 	init() {
+		const editor = this.editor;
 		this.editor.ui.componentFactory.add( 'templates', locale => {
 			// default entry in templates dropdown
 			const defaultEntry = [ {
@@ -35,10 +36,15 @@ export default class TemplatesUI extends Plugin {
 					withText: true,
 					id: template[ 'id' ] || template.title,
 					label: template.title
-				} )
+				} ),
+				title: template.title
 			} ) ) );
 
 			addListToDropdown( dropdownView, items );
+
+			// Disable the placeholder button when the command is disabled.
+			const command = editor.commands.get( 'insertTemplate' );
+			dropdownView.bind( 'isEnabled' ).to( command );
 
 			dropdownView.on( 'execute', event => {
 				const id = event.source.id;
@@ -53,6 +59,10 @@ export default class TemplatesUI extends Plugin {
 
 				this.editor.execute( 'insertTemplate', template[ 'html' ] );
 			} );
+
+			const trackChangesEditing = editor.plugins.get( 'TrackChangesEditing' );
+
+			trackChangesEditing.enableCommand( 'insertTemplate' );
 
 			return dropdownView;
 		} );
