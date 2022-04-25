@@ -31,6 +31,7 @@
     "@ckeditor/ckeditor5-link": "^30.0.0",
     "@ckeditor/ckeditor5-list": "^30.0.0",
     "@ckeditor/ckeditor5-media-embed": "^30.0.0",
+    "@ckeditor/ckeditor5-mention": "30.0.0",
     "@ckeditor/ckeditor5-paragraph": "^30.0.0",
     "@ckeditor/ckeditor5-paste-from-office": "^30.0.0",
     "@ckeditor/ckeditor5-real-time-collaboration": "^30.0.0",
@@ -40,7 +41,8 @@
     "@ckeditor/ckeditor5-theme-lark": "^30.0.0",
     "@ckeditor/ckeditor5-typing": "^30.0.0",
     "@ckeditor/ckeditor5-watchdog": "^30.0.0",
-    "@ckeditor/ckeditor5-word-count": "^30.0.0"
+    "@ckeditor/ckeditor5-word-count": "^30.0.0",
+    "@webspellchecker/wproofreader-ckeditor5": "2.0.6"
   },
   "devDependencies": {
     "@ckeditor/ckeditor5-dev-utils": "^25.4.0",

@@ -37,8 +37,10 @@ import CloudServices from '@ckeditor/ckeditor5-cloud-services/src/cloudservices'
 import SourceEditing from '@ckeditor/ckeditor5-source-editing/src/sourceediting';
 import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
 import WordCount from '@ckeditor/ckeditor5-word-count/src/wordcount';
+import WProofreader from '@webspellchecker/wproofreader-ckeditor5/src/wproofreader';
 import Font from '@ckeditor/ckeditor5-font/src/font';
 import FindAndReplace from '@ckeditor/ckeditor5-find-and-replace/src/findandreplace';
+import Mention from '@ckeditor/ckeditor5-mention/src/mention';
 
 // Core plugin that provides the API for the management of special characters and their categories.
 import SpecialCharacters from '@ckeditor/ckeditor5-special-characters/src/specialcharacters';
@@ -87,6 +89,7 @@ CKEditorCS.builtinPlugins = [
 	Link,
 	List,
 	MediaEmbed,
+	Mention,
 	Paragraph,
 	PasteFromOffice,
 	Table,
@@ -103,6 +106,7 @@ CKEditorCS.builtinPlugins = [
 	SourceEditing,
 	Alignment,
 	WordCount,
+	WProofreader,
 	FindAndReplace,
 	// GeneralHTMLSupport plugin is automatically initialized by the templates plugin
 	Templates
@@ -149,7 +153,8 @@ CKEditorCS.defaultConfig = {
 			'templates',
 			'|',
 			'comment',
-			'trackChanges'
+			'trackChanges',
+			'wproofreader'
 		]
 	},
 	image: {
@@ -170,6 +175,20 @@ CKEditorCS.defaultConfig = {
 			'tableProperties',
 			'tableCellProperties',
 			'toggleTableCaption'
+		]
+	},
+	wproofreader: {
+		lang: 'en_GB', // sets the default language
+		serviceId: 'H8nP8rA4Ek8YDqR', // required for the Cloud version only
+		srcUrl: 'https://svc.webspellchecker.net/spellcheck31/wscbundle/wscbundle.js'
+	},
+	mention: {
+		feeds: [
+			{
+				marker: '@',
+				feed: [ '@Barney', '@Lily', '@Marry Ann', '@Marshall', '@Robin', '@Ted' ],
+				minimumCharacters: 1
+			}
 		]
 	},
 
