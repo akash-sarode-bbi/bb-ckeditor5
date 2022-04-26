@@ -54,7 +54,7 @@ import RealTimeCollaborativeTrackChanges from '@ckeditor/ckeditor5-real-time-col
 // The following plugin enables users presence list and is optional.
 import PresenceList from '@ckeditor/ckeditor5-real-time-collaboration/src/presencelist';
 
-import Templates from '@ckeditor/bb-ckeditor5-templates';
+// import Templates from '@ckeditor/bb-ckeditor5-templates';
 
 class CKEditorCS extends DecoupledEditorBase {}
 
@@ -106,9 +106,10 @@ CKEditorCS.builtinPlugins = [
 	Alignment,
 	WordCount,
 	WProofreader,
-	FindAndReplace,
+	FindAndReplace
+	// ,
 	// GeneralHTMLSupport plugin is automatically initialized by the templates plugin
-	Templates
+	// Templates
 ];
 
 // Editor configuration.
@@ -149,7 +150,7 @@ CKEditorCS.defaultConfig = {
 			'blockQuote',
 			'insertTable',
 			'mediaEmbed',
-			'templates',
+			// 'templates',
 			'|',
 			'comment',
 			'trackChanges',
