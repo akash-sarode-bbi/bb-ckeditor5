@@ -1,5 +1,5 @@
 {
-  "name": "@ckeditor/bb-ckeditor5-build-acoms",
+  "name": "@ckeditor/bb-ckeditor5-build-acoms-without-watchdog",
   "version": "1.0.0",
   "description": "CKEditor 5 build for the BB ACoMS project",
   "main": "./build/ckeditor.js",
