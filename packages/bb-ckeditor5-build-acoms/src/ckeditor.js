@@ -47,6 +47,9 @@ import SpecialCharacters from '@ckeditor/ckeditor5-special-characters/src/specia
 // A plugin that combines a basic set of special characters.
 import SpecialCharactersEssentials from '@ckeditor/ckeditor5-special-characters/src/specialcharactersessentials';
 
+import Comments from '@ckeditor/ckeditor5-comments/src/comments';
+import TrackChanges from '@ckeditor/ckeditor5-track-changes/src/trackchanges';
+
 import RealTimeCollaborativeEditing from '@ckeditor/ckeditor5-real-time-collaboration/src/realtimecollaborativeediting';
 // The following plugin enables real-time collaborative comments.
 import RealTimeCollaborativeComments from '@ckeditor/ckeditor5-real-time-collaboration/src/realtimecollaborativecomments';
@@ -54,7 +57,7 @@ import RealTimeCollaborativeComments from '@ckeditor/ckeditor5-real-time-collabo
 import RealTimeCollaborativeTrackChanges from '@ckeditor/ckeditor5-real-time-collaboration/src/realtimecollaborativetrackchanges';
 // The following plugin enables users presence list and is optional.
 import PresenceList from '@ckeditor/ckeditor5-real-time-collaboration/src/presencelist';
-
+import GeneralHtmlSupport from '@ckeditor/ckeditor5-html-support/src/generalhtmlsupport';
 import Templates from '@ckeditor/bb-ckeditor5-templates';
 
 class CKEditorCS extends DecoupledEditorBase {}
@@ -98,7 +101,8 @@ CKEditorCS.builtinPlugins = [
 	TableCellProperties,
 	TableCaption,
 	TextTransformation,
-
+	Comments,
+	TrackChanges,
 	RealTimeCollaborativeEditing,
 	RealTimeCollaborativeComments,
 	RealTimeCollaborativeTrackChanges,
@@ -108,7 +112,7 @@ CKEditorCS.builtinPlugins = [
 	WordCount,
 	WProofreader,
 	FindAndReplace,
-	// GeneralHTMLSupport plugin is automatically initialized by the templates plugin
+	GeneralHtmlSupport,
 	Templates
 ];
 

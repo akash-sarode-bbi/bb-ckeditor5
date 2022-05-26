@@ -1,3 +1,7 @@
+/**
+ * @module bb-ckeditor5-templates/insertTemplateCommand
+ */
+
 import { Command } from 'ckeditor5/src/core';
 
 export default class InsertTemplateCommand extends Command {

@@ -1,3 +1,7 @@
+/**
+ * @module bb-ckeditor5-templates/templatesUi
+*/
+
 /* eslint-disable dot-notation */
 import { Plugin } from 'ckeditor5/src/core';
 import { Collection } from 'ckeditor5/src/utils';
@@ -5,6 +9,16 @@ import { createDropdown, SplitButtonView, Model, addListToDropdown } from 'ckedi
 import TemplateIcon from '../icons/template.svg';
 
 export default class TemplatesUI extends Plugin {
+	/**
+	 * @inheritDoc
+	 */
+	static get pluginName() {
+		return 'TemplatesUI';
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	init() {
 		const editor = this.editor;
 		this.editor.ui.componentFactory.add( 'templates', locale => {

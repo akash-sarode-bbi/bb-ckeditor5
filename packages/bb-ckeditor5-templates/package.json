@@ -18,9 +18,9 @@
   },
   "homepage": "https://github.com/akash-sarode-bbi/bb-ckeditor5#readme",
   "dependencies": {
-    "@ckeditor/ckeditor5-core": "^30.0.0",
-    "@ckeditor/ckeditor5-html-support": "^30.0.0",
-    "@ckeditor/ckeditor5-ui": "^30.0.0",
-    "@ckeditor/ckeditor5-widget": "^30.0.0"
+    "@ckeditor/ckeditor5-core": "^34.1.0",
+    "@ckeditor/ckeditor5-html-support": "^34.1.0",
+    "@ckeditor/ckeditor5-ui": "^34.1.0",
+    "@ckeditor/ckeditor5-widget": "^34.1.0"
   }
 }
