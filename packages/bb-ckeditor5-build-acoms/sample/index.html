@@ -7,7 +7,7 @@
 	
   <style>
 		body {
-			padding: 20px;
+			margin: 20px auto;
 		}
 
     .editable-container-super {
@@ -37,7 +37,7 @@
     }
 
     .editable-container .ck-editor__editable {
-      min-height: 19em;
+      /* min-height: 19em; */
       padding: 2em;
       border: 1px #D3D3D3 solid;
       border-radius: var(--ck-border-radius);
@@ -45,13 +45,21 @@
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     }
 
-    .editor-container {
-        border: 1px solid var(--ck-color-base-border);
-        border-radius: var(--ck-border-radius);
-        box-shadow: 2px 2px 0px hsla( 0, 0%, 0%, 0.1 );
-        margin: 1.5em 0;
-        padding: 1em;
-    }
+    .w-10 {
+			width: 10% !important;
+		}
+
+		.w-20 {
+			width: 20% !important;
+		}
+
+		.w-25 {
+			width: 25% !important;
+		}
+
+		.w-45 {
+			width: 45% !important;
+		}
 
     .editor-container .ck.ck-editor__editable_inline {
         border: 1px solid hsla( 0, 0%, 0%, 0.15 );
@@ -101,27 +109,29 @@
         fill: hsl( 0, 100%, 52% );
     }
 	</style>
+  <link rel="stylesheet" href="../../../node_modules/bootstrap/dist/css/bootstrap.min.css">
 </head>
 <body>
+  <div class="container-fluid">
+    <h1>CKEditor 5 – ACoMS build with Document Editor</h1>
+    <div class="editor-container">
+      <div id="presence-list-container"></div>
+      <div class="toolbar-container"></div>
 
-  <h1>CKEditor 5 – ACoMS build with Document Editor</h1>
-  <div class="editor-container">
-    <div id="presence-list-container"></div>
-    <div class="toolbar-container"></div>
 
+      <div class="editable-container-super">
+        <div class="editable-container"></div>
+        <div id="sidebar"></div>
+      </div>
 
-    <div class="editable-container-super">
-      <div class="editable-container"></div>
-      <div id="sidebar"></div>
-    </div>
-
-    <div class="word-container">
-      <span class="word-container-word-count"></span>
-      <svg class="word-container-chart" viewbox="0 0 40 40" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
-          <circle stroke="hsl(0, 0%, 93%)" stroke-width="3" fill="none" cx="20" cy="20" r="17" />
-          <circle class="word-container-chart-circle" stroke="hsl(202, 92%, 59%)" stroke-width="3" stroke-dasharray="134,534" stroke-linecap="round" fill="none" cx="20" cy="20" r="17" />
-          <text class="word-container-chart-characters" x="50%" y="50%" dominant-baseline="central" text-anchor="middle"></text>
-      </svg>
+      <div class="word-container">
+        <span class="word-container-word-count"></span>
+        <svg class="word-container-chart" viewbox="0 0 40 40" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+            <circle stroke="hsl(0, 0%, 93%)" stroke-width="3" fill="none" cx="20" cy="20" r="17" />
+            <circle class="word-container-chart-circle" stroke="hsl(202, 92%, 59%)" stroke-width="3" stroke-dasharray="134,534" stroke-linecap="round" fill="none" cx="20" cy="20" r="17" />
+            <text class="word-container-chart-characters" x="50%" y="50%" dominant-baseline="central" text-anchor="middle"></text>
+        </svg>
+      </div>
     </div>
   </div>
 
@@ -145,11 +155,10 @@ Once the Nazi dictatorship was firmly established, the Nazis themselves created 
     const wordsBox = document.querySelector( '.word-container-word-count' );
     const circleCircumference = Math.floor( 2 * Math.PI * progressCircle.getAttribute( 'r' ) );
 
-    const { CKEditorCS: Editor, EditorWatchdog } = CKEditorCS;
+    const { CKEditorCS: Editor, EditorWatchdog } = Watchdog;
     
     // Create a watchdog for the given editor type.
     const watchdog = new EditorWatchdog( Editor );
-
     // Define a callback that will create an editor instance and return it.
     watchdog.setCreator( ( elementOrData, editorConfig ) => {
         return Editor.
@@ -198,18 +207,25 @@ Once the Nazi dictatorship was firmly established, the Nazis themselves created 
         }
       },
       cloudServices: {
-        tokenUrl: 'https://82590.cke-cs.com/token/dev/37623aab5baa9330bd4256d1f257f077e1a0640fd633ca7c73a2896a598a?limit=10',
+        tokenUrl: 'https://82590.cke-cs.com/token/dev/493ba7efb21e240b4000e60db1dd5633be7c8c409f258a2a879fcb8e4a2b?limit=10',
         uploadUrl: 'https://82590.cke-cs.com/easyimage/upload/',
-        webSocketUrl: 'wss://82590.cke-cs.com/ws',
+        webSocketUrl: 'wss://82590.cke-cs.com/ws'
       },
       collaboration: {
-        channelId: "test-decoupled-editor-16"
+        channelId: "test-decoupled-editor-16-bb-03"
       },
       sidebar: {
         container: document.querySelector('#sidebar')
       },
       presenceList: {
         container: document.querySelector('#presence-list-container')
+      },
+      link: {
+        data: {
+          toc: getTocList,
+          abbreviation: gerAbbreviationList,
+          reference: getReferenceList
+        }
       },
       templates: [
         {
@@ -259,6 +275,35 @@ Once the Nazi dictatorship was firmly established, the Nazis themselves created 
           parent.removeChild(parent.lastChild);
       }
     };
+
+    function getTocList() {
+			const fetchOptions = {
+				method: 'get',
+				mode: 'no-cors'
+			};
+			return fetch(`http://localhost:8888/acoms/media/data/guideline/ENAS103/ENAS103_TOC.json`, fetchOptions)
+				.then(response => response.json());
+		}
+
+		function gerAbbreviationList() {
+			const fetchOptions = {
+				method: 'get',
+				mode: 'no-cors'
+			};
+			return fetch(`http://localhost:8888/acoms/media/data/guideline/ENAS103/Abbreviations.json`, fetchOptions)
+				.then(response => response.json());
+		}
+
+		function getReferenceList() {
+			const fetchOptions = {
+				method: 'get',
+				mode: 'no-cors'
+			};
+			return fetch(
+					`http://localhost:8888/acoms/controllers/controller.guidelineOperations.php?operationType=getGuidelineReferenceList&guidelineId=112`,
+					fetchOptions)
+				.then(response => response.json());
+		}
   </script>
 </body>
 </html>
