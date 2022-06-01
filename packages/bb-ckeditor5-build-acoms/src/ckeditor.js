@@ -32,6 +32,7 @@ import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
 import TableProperties from '@ckeditor/ckeditor5-table/src/tableproperties';
 import TableCellProperties from '@ckeditor/ckeditor5-table/src/tablecellproperties';
 import TableCaption from '@ckeditor/ckeditor5-table/src/tablecaption';
+import TableColumnResize from '@ckeditor/ckeditor5-table/src/tablecolumnresize';
 import { TextTransformation } from 'ckeditor5/src/typing';
 import CloudServices from '@ckeditor/ckeditor5-cloud-services/src/cloudservices';
 import SourceEditing from '@ckeditor/ckeditor5-source-editing/src/sourceediting';
@@ -100,6 +101,7 @@ CKEditorCS.builtinPlugins = [
 	TableProperties,
 	TableCellProperties,
 	TableCaption,
+	TableColumnResize,
 	TextTransformation,
 	Comments,
 	TrackChanges,
