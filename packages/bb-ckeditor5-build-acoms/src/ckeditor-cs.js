@@ -163,13 +163,14 @@ CKEditorCS.defaultConfig = {
 		]
 	},
 	image: {
+		styles: [
+			'alignCenter',
+			'alignLeft',
+			'alignRight'
+		],
 		toolbar: [
-			'imageStyle:inline',
-			'imageStyle:block',
-			'imageStyle:side',
-			'|',
-			'toggleImageCaption',
-			'imageTextAlternative'
+			'imageTextAlternative', 'toggleImageCaption', '|',
+			'imageStyle:inline', 'imageStyle:wrapText', 'imageStyle:breakText', 'imageStyle:side'
 		]
 	},
 	table: {
