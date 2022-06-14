@@ -46,7 +46,7 @@ import Mention from '@ckeditor/ckeditor5-mention/src/mention';
 import SpecialCharacters from '@ckeditor/ckeditor5-special-characters/src/specialcharacters';
 // A plugin that combines a basic set of special characters.
 import SpecialCharactersEssentials from '@ckeditor/ckeditor5-special-characters/src/specialcharactersessentials';
-
+import Style from '@ckeditor/ckeditor5-style/src/style';
 import Comments from '@ckeditor/ckeditor5-comments/src/comments';
 import TrackChanges from '@ckeditor/ckeditor5-track-changes/src/trackchanges';
 
@@ -109,6 +109,7 @@ CKEditorCS.builtinPlugins = [
 	RealTimeCollaborativeTrackChanges,
 	PresenceList,
 	SourceEditing,
+	Style,
 	Alignment,
 	WordCount,
 	WProofreader,
@@ -140,6 +141,7 @@ CKEditorCS.defaultConfig = {
 			'highlight',
 			'specialCharacters',
 			'|',
+			'style',
 			'heading',
 			'|',
 			'findAndReplace',

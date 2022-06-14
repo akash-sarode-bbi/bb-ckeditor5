@@ -58,6 +58,7 @@
     "@ckeditor/ckeditor5-track-changes": ">=34.1.0",
     "@ckeditor/ckeditor5-source-editing": "^34.1.0",
     "@ckeditor/ckeditor5-special-characters": "^34.1.0",
+    "@ckeditor/ckeditor5-style": "^34.1.0",
     "@ckeditor/ckeditor5-table": "^34.1.0",
     "@ckeditor/ckeditor5-theme-lark": "^34.1.0",
     "@ckeditor/ckeditor5-typing": "^34.1.0",

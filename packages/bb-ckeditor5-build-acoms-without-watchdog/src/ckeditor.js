@@ -31,6 +31,7 @@ import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
 import TableProperties from '@ckeditor/ckeditor5-table/src/tableproperties';
 import TableCellProperties from '@ckeditor/ckeditor5-table/src/tablecellproperties';
 import TableCaption from '@ckeditor/ckeditor5-table/src/tablecaption';
+import TableColumnResize from '@ckeditor/ckeditor5-table/src/tablecolumnresize';
 import { TextTransformation } from 'ckeditor5/src/typing';
 import CloudServices from '@ckeditor/ckeditor5-cloud-services/src/cloudservices';
 import SourceEditing from '@ckeditor/ckeditor5-source-editing/src/sourceediting';
@@ -45,7 +46,7 @@ import Mention from '@ckeditor/ckeditor5-mention/src/mention';
 import SpecialCharacters from '@ckeditor/ckeditor5-special-characters/src/specialcharacters';
 // A plugin that combines a basic set of special characters.
 import SpecialCharactersEssentials from '@ckeditor/ckeditor5-special-characters/src/specialcharactersessentials';
-
+import Style from '@ckeditor/ckeditor5-style/src/style';
 import Comments from '@ckeditor/ckeditor5-comments/src/comments';
 import TrackChanges from '@ckeditor/ckeditor5-track-changes/src/trackchanges';
 
@@ -99,6 +100,7 @@ CKEditorCS.builtinPlugins = [
 	TableProperties,
 	TableCellProperties,
 	TableCaption,
+	TableColumnResize,
 	TextTransformation,
 	Comments,
 	TrackChanges,
@@ -107,6 +109,7 @@ CKEditorCS.builtinPlugins = [
 	RealTimeCollaborativeTrackChanges,
 	PresenceList,
 	SourceEditing,
+	Style,
 	Alignment,
 	WordCount,
 	WProofreader,
@@ -138,6 +141,7 @@ CKEditorCS.defaultConfig = {
 			'highlight',
 			'specialCharacters',
 			'|',
+			'style',
 			'heading',
 			'|',
 			'findAndReplace',
