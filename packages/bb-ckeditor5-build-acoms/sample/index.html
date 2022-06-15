@@ -380,24 +380,10 @@
 				.then(response => response.json());
 		}
 
-		async function loadCssFile() {
-			try {
-				const fetchOptions = {
-					method: 'get',
-					mode: 'no-cors'
-				};
-				let res = await fetch('http://localhost:8888/acoms/media/include/ckeditor/media/css/ckeditor.css', fetchOptions);
-				return await res.text();
-			} catch (error) {
-				console.log(error);
-			}
-		}
-
 		async function getStyleItemList( ) {
 			const validSelectors = /\w+\.\w+/;
 			const globalRegex = new RegExp( '\\:{1,2}[^\\s]*' );
-			const cssStyleText = await loadCssFile();
-			appendStyleText( cssStyleText );
+			appendStyle();
 			let data = [];
 			const sheetArray = [ ...document.styleSheets[ document.styleSheets.length - 1 ].cssRules ];
 
@@ -429,18 +415,23 @@
 			return cssItems;
 		}
 
-		function appendStyleText( cssStyleText ) {
+		function appendStyle() {
 			try {
-				const style = document.createElement( 'style' );
-				document.getElementsByTagName( 'head' )[ 0 ].appendChild( style );
+				// Get HTML head element
+				var head = document.getElementsByTagName('HEAD')[0];
+ 
+				// Create new link Element
+				var link = document.createElement('link');
 
-				style.type = 'text/css';
-				if ( style.styleSheet ) {
-					// This is required for IE8 and below.
-					style.styleSheet.cssText = cssStyleText;
-				} else {
-					style.appendChild( document.createTextNode( cssStyleText ) );
-				}
+				// set the attributes for link element
+				link.rel = 'stylesheet';
+
+				link.type = 'text/css';
+
+				link.href = 'http://localhost:8888/acoms/media/include/ckeditor/media/css/ckeditor.css';
+
+				// Append link element to HTML head
+				head.appendChild(link);
 			} catch ( error ) {
 				console.log( error );
 			}
