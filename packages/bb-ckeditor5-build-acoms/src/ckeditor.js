@@ -213,7 +213,77 @@ CKEditorCS.defaultConfig = {
 			}
 		]
 	},
-
+	heading: {
+		options: [
+			{ model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+			{
+				model: 'heading1',
+				view: {
+					name: 'p',
+					classes: 'h1'
+				},
+				title: 'Heading 1',
+				class: 'h1',
+				// It needs to be converted before the standard 'heading1'.
+				converterPriority: 'high'
+			},
+			{
+				model: 'heading2',
+				view: {
+					name: 'p',
+					classes: 'h2'
+				},
+				title: 'Heading 2',
+				class: 'h2',
+				// It needs to be converted before the standard 'heading2'.
+				converterPriority: 'high'
+			},
+			{
+				model: 'heading3',
+				view: {
+					name: 'p',
+					classes: 'h3'
+				},
+				title: 'Heading 3',
+				class: 'h3',
+				// It needs to be converted before the standard 'heading3'.
+				converterPriority: 'high'
+			},
+			{
+				model: 'heading4',
+				view: {
+					name: 'p',
+					classes: 'h4'
+				},
+				title: 'Heading 4',
+				class: 'h4',
+				// It needs to be converted before the standard 'heading4'.
+				converterPriority: 'high'
+			},
+			{
+				model: 'heading5',
+				view: {
+					name: 'p',
+					classes: 'h5'
+				},
+				title: 'Heading 5',
+				class: 'h5',
+				// It needs to be converted before the standard 'heading5'.
+				converterPriority: 'high'
+			},
+			{
+				model: 'heading6',
+				view: {
+					name: 'p',
+					classes: 'h6'
+				},
+				title: 'Heading 6',
+				class: 'h6',
+				// It needs to be converted before the standard 'heading6'.
+				converterPriority: 'high'
+			}
+		]
+	},
 	// This value must be kept in sync with the language defined in webpack.config.js.
 	language: 'en'
 };
