@@ -291,10 +291,15 @@
 				.then(response => response.json());
 		}
 
+		function sleep(ms) {
+			return new Promise(resolve => setTimeout(resolve, ms));
+		}
+
 		async function getStyleItemList( ) {
 			const validSelectors = /\w+\.\w+/;
 			const globalRegex = new RegExp( '\\:{1,2}[^\\s]*' );
 			appendStyle();
+			await sleep(2000);
 			let data = [];
 			const sheetArray = [ ...document.styleSheets[ document.styleSheets.length - 1 ].cssRules ];
 
@@ -349,7 +354,7 @@
 		}
 
 		async function loadEditor() {
-			const styleItem = await getStyleItemList( );
+			const styleItem = await getStyleItemList();
 			createEditor( styleItem );
 		}
 		
