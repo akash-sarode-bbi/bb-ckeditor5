@@ -24,6 +24,7 @@ import ImageUpload from '@ckeditor/ckeditor5-image/src/imageupload';
 import Indent from '@ckeditor/ckeditor5-indent/src/indent';
 import Link from '@ckeditor/bb-ckeditor5-custom-link/src/link';
 import List from '@ckeditor/ckeditor5-list/src/list';
+import ListProperties from '@ckeditor/ckeditor5-list/src/listproperties';
 import MediaEmbed from '@ckeditor/ckeditor5-media-embed/src/mediaembed';
 import { Paragraph } from 'ckeditor5/src/paragraph';
 import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefromoffice';
@@ -92,6 +93,7 @@ CKEditorCS.builtinPlugins = [
 	Indent,
 	Link,
 	List,
+	ListProperties,
 	MediaEmbed,
 	Mention,
 	Paragraph,
@@ -126,11 +128,6 @@ CKEditorCS.defaultConfig = {
 			'undo',
 			'redo',
 			'|',
-			'fontFamily',
-			'fontSize',
-			'fontColor',
-			'fontBackgroundColor',
-			'|',
 			'bold',
 			'italic',
 			'underline',
@@ -147,7 +144,6 @@ CKEditorCS.defaultConfig = {
 			'|',
 			'findAndReplace',
 			'|',
-			'bulletedList',
 			'numberedList',
 			'outdent',
 			'indent',
