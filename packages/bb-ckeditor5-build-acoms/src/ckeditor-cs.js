@@ -149,7 +149,7 @@ CKEditorCS.defaultConfig = {
 			'alignment',
 			'|',
 			'link',
-			'uploadImage',
+			'ckfinder',
 			'blockQuote',
 			'insertTable',
 			'mediaEmbed',

@@ -140,6 +140,7 @@
 		</div>
 	</div>
 
+	<script src="http://localhost:8888/acoms/media/lib/ckfinder/ckfinder.js"></script>
 	<script src="../build/ckeditor-cs.js"></script>
 	<script>
 		function createEditor( styleDefinitions ) {
@@ -239,6 +240,16 @@
 				],
 				style: {
 						definitions: styleDefinitions
+				},
+				ckfinder: {
+					// Upload the images to the server using the CKFinder QuickUpload command.
+					uploadUrl: 'http://localhost:8888/acoms/media/lib/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json',
+
+					// Define the CKFinder configuration (if necessary).
+					options: {
+						resourceType: 'Images',
+						guidelineUniqueId: 'ENAS119'
+					}
 				}
 			};
 
