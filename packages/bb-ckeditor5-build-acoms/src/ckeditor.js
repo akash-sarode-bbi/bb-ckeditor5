@@ -25,7 +25,6 @@ import Indent from '@ckeditor/ckeditor5-indent/src/indent';
 import Link from '@ckeditor/bb-ckeditor5-custom-link/src/link';
 import List from '@ckeditor/ckeditor5-list/src/list';
 import ListProperties from '@ckeditor/ckeditor5-list/src/listproperties';
-import MediaEmbed from '@ckeditor/ckeditor5-media-embed/src/mediaembed';
 import { Paragraph } from 'ckeditor5/src/paragraph';
 import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefromoffice';
 import Table from '@ckeditor/ckeditor5-table/src/table';
@@ -36,7 +35,6 @@ import TableCaption from '@ckeditor/ckeditor5-table/src/tablecaption';
 import TableColumnResize from '@ckeditor/ckeditor5-table/src/tablecolumnresize';
 import { TextTransformation } from 'ckeditor5/src/typing';
 import CloudServices from '@ckeditor/ckeditor5-cloud-services/src/cloudservices';
-import SourceEditing from '@ckeditor/ckeditor5-source-editing/src/sourceediting';
 import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
 import WordCount from '@ckeditor/ckeditor5-word-count/src/wordcount';
 import WProofreader from '@webspellchecker/wproofreader-ckeditor5/src/wproofreader';
@@ -94,7 +92,6 @@ CKEditorCS.builtinPlugins = [
 	Link,
 	List,
 	ListProperties,
-	MediaEmbed,
 	Mention,
 	Paragraph,
 	PasteFromOffice,
@@ -111,7 +108,6 @@ CKEditorCS.builtinPlugins = [
 	RealTimeCollaborativeComments,
 	RealTimeCollaborativeTrackChanges,
 	PresenceList,
-	SourceEditing,
 	Style,
 	Alignment,
 	WordCount,
@@ -153,7 +149,6 @@ CKEditorCS.defaultConfig = {
 			'ckfinder',
 			'blockQuote',
 			'insertTable',
-			'mediaEmbed',
 			'templates',
 			'|',
 			'comment',

@@ -322,7 +322,7 @@ export default class LinkUI extends Plugin {
 
 			const URL_ABBR_REG_EXP = new RegExp( '^abbr_' );
 			const URL_REF_REG_EXP = new RegExp( '^REF_' );
-			const URL_EXTERNAL_REG_EXP = new RegExp( '^http|https|ftps|mailto' );
+			const URL_EXTERNAL_REG_EXP = new RegExp( '^http|https|ftps|mailto|www|ftp' );
 
 			if ( URL_EXTERNAL_REG_EXP.test( linkHref ) ) {
 				linkType.value = 'external';

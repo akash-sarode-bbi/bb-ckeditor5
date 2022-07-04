@@ -170,7 +170,7 @@
 						removeChilds(document.querySelector('.editable-container'));
 						document.querySelector('.toolbar-container').appendChild(editor.ui.view.toolbar.element);
 						document.querySelector('.editable-container').appendChild(editor.ui.view.editable.element);
-						editor.execute('trackChanges');
+
 						return editor;
 					})
 					.catch(error => {
