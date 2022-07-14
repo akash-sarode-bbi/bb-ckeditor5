@@ -12,7 +12,7 @@
     "ckeditor5-dll"
   ],
   "dependencies": {
-    "ckeditor5": "^34.0.0",
+    "ckeditor5": "^34.1.0",
     "lodash-es": "^4.17.15",
     "bootstrap": "^5.1.3"
   },
