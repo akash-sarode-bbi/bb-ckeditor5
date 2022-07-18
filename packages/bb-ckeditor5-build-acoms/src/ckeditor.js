@@ -58,7 +58,7 @@ import RealTimeCollaborativeTrackChanges from '@ckeditor/ckeditor5-real-time-col
 // The following plugin enables users presence list and is optional.
 import PresenceList from '@ckeditor/ckeditor5-real-time-collaboration/src/presencelist';
 import GeneralHtmlSupport from '@ckeditor/ckeditor5-html-support/src/generalhtmlsupport';
-import Templates from '@ckeditor/bb-ckeditor5-templates';
+// import Templates from '@ckeditor/bb-ckeditor5-templates';
 
 class CKEditorCS extends DecoupledEditorBase {}
 
@@ -113,8 +113,9 @@ CKEditorCS.builtinPlugins = [
 	WordCount,
 	WProofreader,
 	FindAndReplace,
-	GeneralHtmlSupport,
-	Templates
+	GeneralHtmlSupport
+	// ,
+	// Templates
 ];
 
 // Editor configuration.
@@ -149,7 +150,7 @@ CKEditorCS.defaultConfig = {
 			'ckfinder',
 			'blockQuote',
 			'insertTable',
-			'templates',
+			// 'templates',
 			'|',
 			'comment',
 			'trackChanges',
@@ -175,20 +176,6 @@ CKEditorCS.defaultConfig = {
 			'tableProperties',
 			'tableCellProperties',
 			'toggleTableCaption'
-		]
-	},
-	wproofreader: {
-		lang: 'en_GB', // sets the default language
-		serviceId: 'H8nP8rA4Ek8YDqR', // required for the Cloud version only
-		srcUrl: 'https://svc.webspellchecker.net/spellcheck31/wscbundle/wscbundle.js'
-	},
-	mention: {
-		feeds: [
-			{
-				marker: '@',
-				feed: [ '@Barney', '@Lily', '@Marry Ann', '@Marshall', '@Robin', '@Ted' ],
-				minimumCharacters: 1
-			}
 		]
 	},
 
