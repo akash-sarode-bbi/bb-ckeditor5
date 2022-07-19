@@ -86,7 +86,15 @@ export default class LinkUI extends Plugin {
 		} );
 
 		// modal creation code
-		const modalWrap = document.createElement( 'div' );
+		let modalWrap;
+		if ( document.getElementById( 'ckeditorLinkModelWrap' ) ) {
+			modalWrap = document.getElementById( 'ckeditorLinkModelWrap' );
+			modalWrap.innerHTML = '';
+		} else {
+			modalWrap = document.createElement( 'div' );
+			modalWrap.id = 'ckeditorLinkModelWrap';
+		}
+
 		this._addModal( modalWrap );
 		const linkModalElement = document.getElementById( 'linkModal' );
 		this._linkModal = new Modal( linkModalElement, {
