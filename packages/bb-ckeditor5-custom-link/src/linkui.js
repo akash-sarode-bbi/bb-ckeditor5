@@ -93,6 +93,7 @@ export default class LinkUI extends Plugin {
 		} else {
 			modalWrap = document.createElement( 'div' );
 			modalWrap.id = 'ckeditorLinkModelWrap';
+			document.body.append( modalWrap );
 		}
 
 		this._addModal( modalWrap );
@@ -280,7 +281,6 @@ export default class LinkUI extends Plugin {
 				</div>
 			</div>
 		`;
-		document.body.append( modalWrap );
 	}
 
 	/**
