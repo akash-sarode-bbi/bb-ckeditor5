@@ -1,120 +1,113 @@
 import DecoupledEditorBase from '@ckeditor/ckeditor5-editor-decoupled/src/decouplededitor';
-
-import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
-import UploadAdapter from '@ckeditor/ckeditor5-adapter-ckfinder/src/uploadadapter';
+import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
 import Autoformat from '@ckeditor/ckeditor5-autoformat/src/autoformat';
-import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
-import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
-import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline';
-import Strikethrough from '@ckeditor/ckeditor5-basic-styles/src/strikethrough';
-import Subscript from '@ckeditor/ckeditor5-basic-styles/src/subscript';
-import Superscript from '@ckeditor/ckeditor5-basic-styles/src/superscript';
-import HorizontalLine from '@ckeditor/ckeditor5-horizontal-line/src/horizontalline';
-import Highlight from '@ckeditor/ckeditor5-highlight/src/highlight';
 import BlockQuote from '@ckeditor/ckeditor5-block-quote/src/blockquote';
+import Bold from '@ckeditor/bb-ckeditor5-basic-styles/src/bold';
+import Comments from '@ckeditor/ckeditor5-comments/src/comments';
 import CKFinder from '@ckeditor/ckeditor5-ckfinder/src/ckfinder';
-import EasyImage from '@ckeditor/ckeditor5-easy-image/src/easyimage';
+import CKFinderUploadAdapter from '@ckeditor/ckeditor5-adapter-ckfinder/src/uploadadapter';
+import CloudServices from '@ckeditor/ckeditor5-cloud-services/src/cloudservices';
+import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
+import FindAndReplace from '@ckeditor/ckeditor5-find-and-replace/src/findandreplace';
+import GeneralHtmlSupport from '@ckeditor/ckeditor5-html-support/src/generalhtmlsupport';
 import Heading from '@ckeditor/ckeditor5-heading/src/heading';
+import Highlight from '@ckeditor/ckeditor5-highlight/src/highlight';
+import HorizontalLine from '@ckeditor/ckeditor5-horizontal-line/src/horizontalline';
 import Image from '@ckeditor/ckeditor5-image/src/image';
 import ImageCaption from '@ckeditor/ckeditor5-image/src/imagecaption';
 import ImageStyle from '@ckeditor/ckeditor5-image/src/imagestyle';
 import ImageToolbar from '@ckeditor/ckeditor5-image/src/imagetoolbar';
 import ImageUpload from '@ckeditor/ckeditor5-image/src/imageupload';
 import Indent from '@ckeditor/ckeditor5-indent/src/indent';
-import Link from '@ckeditor/ckeditor5-link/src/link';
+import IndentBlock from '@ckeditor/ckeditor5-indent/src/indentblock';
+import Italic from '@ckeditor/bb-ckeditor5-basic-styles/src/italic';
+import Link from '@ckeditor/bb-ckeditor5-custom-link/src/link';
 import List from '@ckeditor/ckeditor5-list/src/list';
 import ListProperties from '@ckeditor/ckeditor5-list/src/listproperties';
+import Mention from '@ckeditor/ckeditor5-mention/src/mention';
 import { Paragraph } from 'ckeditor5/src/paragraph';
 import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefromoffice';
-import Table from '@ckeditor/ckeditor5-table/src/table';
-import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
-import TableProperties from '@ckeditor/ckeditor5-table/src/tableproperties';
-import TableCellProperties from '@ckeditor/ckeditor5-table/src/tablecellproperties';
-import TableCaption from '@ckeditor/ckeditor5-table/src/tablecaption';
-import TableColumnResize from '@ckeditor/ckeditor5-table/src/tablecolumnresize';
-import { TextTransformation } from 'ckeditor5/src/typing';
-import CloudServices from '@ckeditor/ckeditor5-cloud-services/src/cloudservices';
-import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
-import WordCount from '@ckeditor/ckeditor5-word-count/src/wordcount';
-import WProofreader from '@webspellchecker/wproofreader-ckeditor5/src/wproofreader';
-import Font from '@ckeditor/ckeditor5-font/src/font';
-import FindAndReplace from '@ckeditor/ckeditor5-find-and-replace/src/findandreplace';
-import Mention from '@ckeditor/ckeditor5-mention/src/mention';
-
+// The following plugin enables users presence list and is optional.
+import PresenceList from '@ckeditor/ckeditor5-real-time-collaboration/src/presencelist';
+// The following plugin enables real-time collaborative comments.
+import RealTimeCollaborativeComments from '@ckeditor/ckeditor5-real-time-collaboration/src/realtimecollaborativecomments';
+import RealTimeCollaborativeEditing from '@ckeditor/ckeditor5-real-time-collaboration/src/realtimecollaborativeediting';
+// The following plugin enables real-time collaborative track changes and is optional.
+import RealTimeCollaborativeTrackChanges from '@ckeditor/ckeditor5-real-time-collaboration/src/realtimecollaborativetrackchanges';
 // Core plugin that provides the API for the management of special characters and their categories.
 import SpecialCharacters from '@ckeditor/ckeditor5-special-characters/src/specialcharacters';
 // A plugin that combines a basic set of special characters.
 import SpecialCharactersEssentials from '@ckeditor/ckeditor5-special-characters/src/specialcharactersessentials';
+import Strikethrough from '@ckeditor/bb-ckeditor5-basic-styles/src/strikethrough';
 import Style from '@ckeditor/ckeditor5-style/src/style';
-import Comments from '@ckeditor/ckeditor5-comments/src/comments';
+import Subscript from '@ckeditor/bb-ckeditor5-basic-styles/src/subscript';
+import Superscript from '@ckeditor/bb-ckeditor5-basic-styles/src/superscript';
+import Table from '@ckeditor/ckeditor5-table/src/table';
+import TableCaption from '@ckeditor/ckeditor5-table/src/tablecaption';
+import TableCellProperties from '@ckeditor/ckeditor5-table/src/tablecellproperties';
+import TableColumnResize from '@ckeditor/ckeditor5-table/src/tablecolumnresize';
+import TableProperties from '@ckeditor/ckeditor5-table/src/tableproperties';
+import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
+import Templates from '@ckeditor/bb-ckeditor5-templates';
+import { TextTransformation } from 'ckeditor5/src/typing';
 import TrackChanges from '@ckeditor/ckeditor5-track-changes/src/trackchanges';
-
-import RealTimeCollaborativeEditing from '@ckeditor/ckeditor5-real-time-collaboration/src/realtimecollaborativeediting';
-// The following plugin enables real-time collaborative comments.
-import RealTimeCollaborativeComments from '@ckeditor/ckeditor5-real-time-collaboration/src/realtimecollaborativecomments';
-// The following plugin enables real-time collaborative track changes and is optional.
-import RealTimeCollaborativeTrackChanges from '@ckeditor/ckeditor5-real-time-collaboration/src/realtimecollaborativetrackchanges';
-// The following plugin enables users presence list and is optional.
-import PresenceList from '@ckeditor/ckeditor5-real-time-collaboration/src/presencelist';
-import GeneralHtmlSupport from '@ckeditor/ckeditor5-html-support/src/generalhtmlsupport';
-// import Templates from '@ckeditor/bb-ckeditor5-templates';
-
+import Underline from '@ckeditor/bb-ckeditor5-basic-styles/src/underline';
+import WordCount from '@ckeditor/ckeditor5-word-count/src/wordcount';
+import WProofreader from '@webspellchecker/wproofreader-ckeditor5/src/wproofreader';
 class CKEditorCS extends DecoupledEditorBase {}
 
 // Plugins to include in the build.
 CKEditorCS.builtinPlugins = [
-	Essentials,
-	UploadAdapter,
+	Alignment,
 	Autoformat,
-	Bold,
-	Italic,
-	Underline,
-	Strikethrough,
-	Subscript,
-	Superscript,
-	HorizontalLine,
-	Highlight,
-	SpecialCharacters,
-	SpecialCharactersEssentials,
-	Font,
 	BlockQuote,
+	Bold,
+	Comments,
 	CKFinder,
+	CKFinderUploadAdapter,
 	CloudServices,
-	EasyImage,
+	Essentials,
+	FindAndReplace,
+	GeneralHtmlSupport,
 	Heading,
+	Highlight,
+	HorizontalLine,
 	Image,
 	ImageCaption,
 	ImageStyle,
 	ImageToolbar,
 	ImageUpload,
 	Indent,
+	IndentBlock,
+	Italic,
 	Link,
 	List,
 	ListProperties,
 	Mention,
 	Paragraph,
 	PasteFromOffice,
-	Table,
-	TableToolbar,
-	TableProperties,
-	TableCellProperties,
-	TableCaption,
-	TableColumnResize,
-	TextTransformation,
-	Comments,
-	TrackChanges,
+	PresenceList,
 	RealTimeCollaborativeEditing,
 	RealTimeCollaborativeComments,
 	RealTimeCollaborativeTrackChanges,
-	PresenceList,
+	SpecialCharacters,
+	SpecialCharactersEssentials,
+	Strikethrough,
 	Style,
-	Alignment,
+	Subscript,
+	Superscript,
+	Table,
+	TableCellProperties,
+	TableColumnResize,
+	TableProperties,
+	TableToolbar,
+	TableCaption,
+	TextTransformation,
+	Templates,
+	TrackChanges,
+	Underline,
 	WordCount,
-	WProofreader,
-	FindAndReplace,
-	GeneralHtmlSupport
-	// ,
-	// Templates
+	WProofreader
 ];
 
 // Editor configuration.
@@ -149,7 +142,7 @@ CKEditorCS.defaultConfig = {
 			'ckfinder',
 			'blockQuote',
 			'insertTable',
-			// 'templates',
+			'templates',
 			'|',
 			'comment',
 			'trackChanges',
@@ -177,13 +170,44 @@ CKEditorCS.defaultConfig = {
 			'toggleTableCaption'
 		]
 	},
-
 	// html support must be configured with the following
 	// only then all the html tags would be recognized by the CKEditor
 	htmlSupport: {
 		allow: [
+			// Enables block elements.
 			{
-				name: /.*/,
+				name: /^(ul|ol|li|section|nav|article|dl|dt|dd|center)$/,
+				attributes: true,
+				classes: true,
+				styles: true
+			},
+			{
+				name: /^(pre|p|blockquote|li|div|address|aside|main|details|summary|fieldset|legend|header|footer|form|dir|menu)$/,
+				attributes: true,
+				classes: true,
+				styles: true
+			},
+			{
+				name: /^(table|tbody|thead|tfoot|tr|td|th|caption|figcaption|img|figure|header|footer|form|h1|h2|h3|h4|h5|h6|)$/,
+				attributes: true,
+				classes: true,
+				styles: true
+			},
+			// Enables inline elements.
+			{
+				name: /^(acronym|tt|font|time|big|small|samp|q|output|kbd|bdi|bdo|abbr|a|strong|b|i|em|s|del|ins|u|sub|sup)$/,
+				attributes: true,
+				classes: true,
+				styles: true
+			},
+			{
+				name: /^(code|mark|span|cite|label|dfn|object|iframe|input|button|textarea|select|video|embed|oembed)$/,
+				attributes: true,
+				classes: true,
+				styles: true
+			},
+			{
+				name: /^(audio|img|canvas|meter|progress|script|style)$/,
 				attributes: true,
 				classes: true,
 				styles: true
