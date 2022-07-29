@@ -286,7 +286,12 @@ CKEditorCS.defaultConfig = {
 		]
 	},
 	// This value must be kept in sync with the language defined in webpack.config.js.
-	language: 'en'
+	language: 'en',
+	wproofreader: {
+		lang: 'en_GB', // sets the default language
+		serviceId: 'H8nP8rA4Ek8YDqR', // required for the Cloud version only
+		srcUrl: 'https://svc.webspellchecker.net/spellcheck31/wscbundle/wscbundle.js'
+	}
 };
 
 export default CKEditorCS;
