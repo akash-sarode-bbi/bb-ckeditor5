@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -193,9 +193,17 @@ describe( 'TableUI', () => {
 		it( 'should focus view after command execution', () => {
 			const focusSpy = testUtils.sinon.spy( editor.editing.view, 'focus' );
 
-			dropdown.listView.items.first.children.first.fire( 'execute' );
+			dropdown.listView.items.get( 2 ).children.last.fire( 'execute' );
 
 			sinon.assert.calledOnce( focusSpy );
+		} );
+
+		it( 'should not focus view after using a switchbutton', () => {
+			const focusSpy = testUtils.sinon.spy( editor.editing.view, 'focus' );
+
+			dropdown.listView.items.first.children.last.fire( 'execute' );
+
+			sinon.assert.notCalled( focusSpy );
 		} );
 
 		it( 'executes command when it\'s executed', () => {
@@ -330,9 +338,17 @@ describe( 'TableUI', () => {
 		it( 'should focus view after command execution', () => {
 			const focusSpy = testUtils.sinon.spy( editor.editing.view, 'focus' );
 
-			dropdown.listView.items.first.children.first.fire( 'execute' );
+			dropdown.listView.items.get( 2 ).children.first.fire( 'execute' );
 
 			sinon.assert.calledOnce( focusSpy );
+		} );
+
+		it( 'should not focus view after using a switchbutton', () => {
+			const focusSpy = testUtils.sinon.spy( editor.editing.view, 'focus' );
+
+			dropdown.listView.items.first.children.last.fire( 'execute' );
+
+			sinon.assert.notCalled( focusSpy );
 		} );
 
 		it( 'executes command when it\'s executed', () => {

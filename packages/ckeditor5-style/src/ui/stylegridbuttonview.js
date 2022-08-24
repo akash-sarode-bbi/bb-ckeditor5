@@ -15,7 +15,7 @@ import {
 // These are intermediate element names that can't be rendered as style preview because they don't make sense standalone.
 const NON_PREVIEWABLE_ELEMENT_NAMES = [
 	'caption', 'colgroup', 'dd', 'dt', 'figcaption', 'legend', 'li', 'optgroup', 'option', 'rp',
-	'rt', 'summary', 'tbody', 'tfoot', 'thead', 'tr'
+	'rt', 'summary', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr'
 ];
 
 /**

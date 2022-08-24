@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -8,7 +8,7 @@
  */
 
 import { Plugin } from 'ckeditor5/src/core';
-import { addListToDropdown, createDropdown, Model, SplitButtonView } from 'ckeditor5/src/ui';
+import { addListToDropdown, createDropdown, Model, SplitButtonView, SwitchButtonView } from 'ckeditor5/src/ui';
 import { Collection } from 'ckeditor5/src/utils';
 
 import InsertTableView from './ui/inserttableview';
@@ -256,7 +256,11 @@ export default class TableUI extends Plugin {
 
 		this.listenTo( dropdownView, 'execute', evt => {
 			editor.execute( evt.source.commandName );
-			editor.editing.view.focus();
+
+			// Toggling a switch button view should not move the focus to the editable.
+			if ( !( evt.source instanceof SwitchButtonView ) ) {
+				editor.editing.view.focus();
+			}
 		} );
 
 		return dropdownView;

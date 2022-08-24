@@ -4,6 +4,7 @@ import Autoformat from '@ckeditor/ckeditor5-autoformat/src/autoformat';
 import BlockQuote from '@ckeditor/ckeditor5-block-quote/src/blockquote';
 import Bold from '@ckeditor/bb-ckeditor5-basic-styles/src/bold';
 import Comments from '@ckeditor/ckeditor5-comments/src/comments';
+import CKBox from '@ckeditor/ckeditor5-ckbox/src/ckbox';
 import CKFinder from '@ckeditor/ckeditor5-ckfinder/src/ckfinder';
 import CKFinderUploadAdapter from '@ckeditor/ckeditor5-adapter-ckfinder/src/uploadadapter';
 import CloudServices from '@ckeditor/ckeditor5-cloud-services/src/cloudservices';
@@ -28,6 +29,7 @@ import ListProperties from '@ckeditor/ckeditor5-list/src/listproperties';
 import Mention from '@ckeditor/ckeditor5-mention/src/mention';
 import { Paragraph } from 'ckeditor5/src/paragraph';
 import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefromoffice';
+import PictureEditing from '@ckeditor/ckeditor5-image/src/pictureediting';
 // The following plugin enables users presence list and is optional.
 import PresenceList from '@ckeditor/ckeditor5-real-time-collaboration/src/presencelist';
 // The following plugin enables real-time collaborative comments.
@@ -65,6 +67,7 @@ CKEditorCS.builtinPlugins = [
 	BlockQuote,
 	Bold,
 	Comments,
+	CKBox,
 	CKFinder,
 	CKFinderUploadAdapter,
 	CloudServices,
@@ -88,6 +91,7 @@ CKEditorCS.builtinPlugins = [
 	Mention,
 	Paragraph,
 	PasteFromOffice,
+	PictureEditing,
 	PresenceList,
 	RealTimeCollaborativeEditing,
 	RealTimeCollaborativeComments,

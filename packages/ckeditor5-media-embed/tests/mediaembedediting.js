@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -10,9 +10,13 @@ import MediaEmbedEditing from '../src/mediaembedediting';
 import { setData as setModelData, getData as getModelData } from '@ckeditor/ckeditor5-engine/src/dev-utils/model';
 import { getData as getViewData } from '@ckeditor/ckeditor5-engine/src/dev-utils/view';
 import normalizeHtml from '@ckeditor/ckeditor5-utils/tests/_utils/normalizehtml';
+import testUtils from '@ckeditor/ckeditor5-core/tests/_utils/utils';
+import { escapeRegExp } from 'lodash-es';
 
 describe( 'MediaEmbedEditing', () => {
 	let editor, model, doc, view;
+
+	testUtils.createSinonSandbox();
 
 	const testProviders = {
 		A: {
@@ -233,6 +237,18 @@ describe( 'MediaEmbedEditing', () => {
 							],
 							'<div style="position: relative; padding-bottom: 100%; height: 0; padding-bottom: 56.2493%;">' +
 								'<iframe src="https://www.youtube.com/embed/euqbMkM-QQk" ' +
+									'style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;" ' +
+									'frameborder="0" allow="autoplay; encrypted-media" allowfullscreen="">' +
+								'</iframe>' +
+							'</div>' );
+						} );
+
+						it( 'upcasts the URL that contains a timestamp', () => {
+							testMediaUpcast( [
+								'https://youtu.be/aEZw6KFTm6s?t=93'
+							],
+							'<div style="position: relative; padding-bottom: 100%; height: 0; padding-bottom: 56.2493%;">' +
+								'<iframe src="https://www.youtube.com/embed/aEZw6KFTm6s?start=93" ' +
 									'style="position: absolute; width: 100%; height: 100%; top: 0; left: 0;" ' +
 									'frameborder="0" allow="autoplay; encrypted-media" allowfullscreen="">' +
 								'</iframe>' +
@@ -492,6 +508,19 @@ describe( 'MediaEmbedEditing', () => {
 				} );
 		} );
 
+		it( 'inherits attributes from $blockObject', () => {
+			return createTestEditor()
+				.then( newEditor => {
+					model = newEditor.model;
+
+					model.schema.extend( '$blockObject', {
+						allowAttributes: 'foo'
+					} );
+
+					expect( model.schema.checkAttribute( 'media', 'foo' ) ).to.be.true;
+				} );
+		} );
+
 		describe( 'conversion in the data pipeline', () => {
 			describe( 'elementName#o-embed', () => {
 				beforeEach( () => {
@@ -599,6 +628,30 @@ describe( 'MediaEmbedEditing', () => {
 
 						expect( getModelData( model, { withoutSelection: true } ) )
 							.to.equal( '' );
+					} );
+
+					it( 'should not consume if the media element was not converted', () => {
+						editor.data.upcastDispatcher.on( 'element:o-embed', ( evt, data, conversionApi ) => {
+							conversionApi.consumable.consume( data.viewItem, { name: true } );
+							data.modelRange = conversionApi.writer.createRange( data.modelCursor );
+						}, { priority: 'highest' } );
+
+						editor.data.upcastDispatcher.on( 'element:figure', ( evt, data, conversionApi ) => {
+							expect( conversionApi.consumable.test( data.viewItem, { name: true, classes: 'media' } ) ).to.be.true;
+						}, { priority: 'low' } );
+
+						editor.setData( '<figure class="media"><o-embed url="https://ckeditor.com"></o-embed></figure>' );
+
+						expect( getModelData( model, { withoutSelection: true } ) )
+							.to.equal( '' );
+					} );
+
+					it( 'should consume the figure element before the o-embed conversion starts', () => {
+						editor.data.upcastDispatcher.on( 'element:o-embed', ( evt, data, conversionApi ) => {
+							expect( conversionApi.consumable.test( data.viewItem.parent, { name: true, classes: 'media' } ) ).to.be.false;
+						}, { priority: 'low' } );
+
+						editor.setData( '<figure class="media"><o-embed url="https://ckeditor.com"></o-embed></figure>' );
 					} );
 
 					it( 'should not convert if the figure is already consumed', () => {
@@ -862,6 +915,31 @@ describe( 'MediaEmbedEditing', () => {
 									'<oembed url="https://preview-less"></oembed>' +
 								'</figure>' );
 						} );
+
+						it( 'should output unfiltered data', () => {
+							const provider = {
+								name: 'test',
+								url: 'foo.com',
+								html: () => {
+									return '<div onclick="action()">foo</div>';
+								}
+							};
+
+							return createTestEditor( {
+								providers: [ provider ],
+								previewsInData: true
+							} )
+								.then( editor => {
+									setModelData( editor.model, '<media url="https://foo.com"></media>' );
+
+									expect( editor.getData() ).to.equal(
+										'<figure class="media">' +
+											'<div data-oembed-url="https://foo.com">' +
+												'<div onclick="action()">foo</div>' +
+											'</div>' +
+										'</figure>' );
+								} );
+						} );
 					} );
 
 					describe( 'view to model', () => {
@@ -1023,6 +1101,40 @@ describe( 'MediaEmbedEditing', () => {
 				test();
 			} );
 
+			it( 'should apply filtering to the output', () => {
+				testUtils.sinon.stub( console, 'warn' )
+					.withArgs( sinon.match( /^domconverter-unsafe-attribute-detected/ ) )
+					.callsFake( () => {} );
+
+				const provider = {
+					name: 'test',
+					url: 'foo.com',
+					html: () => {
+						return '<div onclick="action()">foo</div>';
+					}
+				};
+
+				return createTestEditor( {
+					providers: [
+						provider
+					]
+				} ).then( editor => {
+					editor.setData( '<figure class="media"><div data-oembed-url="foo.com"></div></figure>' );
+
+					expect( getViewData( editor.editing.view, {
+						withoutSelection: true,
+						renderRawElements: true,
+						domConverter: editor.editing.view.domConverter
+					} ) ).to.equal(
+						'<figure class="ck-widget media" contenteditable="false">' +
+							'<div class="ck-media__wrapper" data-oembed-url="https://foo.com">' +
+								'<div data-ck-unsafe-attribute-onclick="action()">foo</div>' +
+							'</div>' +
+						'</figure>'
+					);
+				} );
+			} );
+
 			function test() {
 				describe( 'model to view', () => {
 					it( 'should convert', () => {
@@ -1145,13 +1257,13 @@ describe( 'MediaEmbedEditing', () => {
 			const viewData = getViewData( view, { withoutSelection: true, renderRawElements: true } );
 			let expectedRegExp;
 
-			const expectedUrl = url.match( /^https?:\/\// ) ? url : 'https://' + url;
+			const expectedUrl = escapeRegExp( url.match( /^https?:\/\// ) ? url : 'https://' + url );
 
 			if ( expected ) {
 				expectedRegExp = new RegExp(
 					'<figure[^>]+>' +
 						'<div[^>]+>' +
-							normalizeHtml( expected ) +
+							normalizeHtml( escapeRegExp( expected ) ) +
 						'</div>' +
 					'</figure>' );
 			} else {

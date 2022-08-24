@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -7,7 +7,7 @@
  * @module engine/view/domconverter
  */
 
-/* globals document, Node, Text */
+/* globals Node, NodeFilter, DOMParser, Text */
 
 import ViewText from './text';
 import ViewElement from './element';
@@ -24,13 +24,17 @@ import {
 } from './filler';
 
 import global from '@ckeditor/ckeditor5-utils/src/dom/global';
+import { logWarning } from '@ckeditor/ckeditor5-utils/src/ckeditorerror';
 import indexOf from '@ckeditor/ckeditor5-utils/src/dom/indexof';
 import getAncestors from '@ckeditor/ckeditor5-utils/src/dom/getancestors';
 import isText from '@ckeditor/ckeditor5-utils/src/dom/istext';
+import isComment from '@ckeditor/ckeditor5-utils/src/dom/iscomment';
 
-const BR_FILLER_REF = BR_FILLER( document ); // eslint-disable-line new-cap
-const NBSP_FILLER_REF = NBSP_FILLER( document ); // eslint-disable-line new-cap
-const MARKED_NBSP_FILLER_REF = MARKED_NBSP_FILLER( document ); // eslint-disable-line new-cap
+const BR_FILLER_REF = BR_FILLER( global.document ); // eslint-disable-line new-cap
+const NBSP_FILLER_REF = NBSP_FILLER( global.document ); // eslint-disable-line new-cap
+const MARKED_NBSP_FILLER_REF = MARKED_NBSP_FILLER( global.document ); // eslint-disable-line new-cap
+const UNSAFE_ATTRIBUTE_NAME_PREFIX = 'data-ck-unsafe-attribute-';
+const UNSAFE_ELEMENT_REPLACEMENT_ATTRIBUTE = 'data-ck-unsafe-element';
 
 /**
  * `DomConverter` is a set of tools to do transformations between DOM nodes and view nodes. It also handles
@@ -51,7 +55,12 @@ export default class DomConverter {
 	 *
 	 * @param {module:engine/view/document~Document} document The view document instance.
 	 * @param {Object} options An object with configuration options.
-	 * @param {module:engine/view/filler~BlockFillerMode} [options.blockFillerMode='br'] The type of the block filler to use.
+	 * @param {module:engine/view/filler~BlockFillerMode} [options.blockFillerMode] The type of the block filler to use.
+	 * Default value depends on the options.renderingMode:
+	 *  'nbsp' when options.renderingMode == 'data',
+	 *  'br' when options.renderingMode == 'editing'.
+	 * @param {'data'|'editing'} [options.renderingMode='editing'] Whether to leave the View-to-DOM conversion result unchanged
+	 * or improve editing experience by filtering out interactive data.
 	 */
 	constructor( document, options = {} ) {
 		/**
@@ -61,11 +70,18 @@ export default class DomConverter {
 		this.document = document;
 
 		/**
+		 * Whether to leave the View-to-DOM conversion result unchanged or improve editing experience by filtering out interactive data.
+		 *
+		 * @member {'data'|'editing'} module:engine/view/domconverter~DomConverter#renderingMode
+		 */
+		this.renderingMode = options.renderingMode || 'editing';
+
+		/**
 		 * The mode of a block filler used by the DOM converter.
 		 *
 		 * @member {'br'|'nbsp'|'markedNbsp'} module:engine/view/domconverter~DomConverter#blockFillerMode
 		 */
-		this.blockFillerMode = options.blockFillerMode || 'br';
+		this.blockFillerMode = options.blockFillerMode || ( this.renderingMode === 'editing' ? 'br' : 'nbsp' );
 
 		/**
 		 * Elements which are considered pre-formatted elements.
@@ -109,6 +125,23 @@ export default class DomConverter {
 		this.inlineObjectElements = [
 			'object', 'iframe', 'input', 'button', 'textarea', 'select', 'option', 'video', 'embed', 'audio', 'img', 'canvas'
 		];
+
+		/**
+		 * A list of elements which may affect the editing experience. To avoid this, those elements are replaced with
+		 * `<span data-ck-unsafe-element="[element name]"></span>` while rendering in the editing mode.
+		 *
+		 * @readonly
+		 * @member {Array.<String>} module:engine/view/domconverter~DomConverter#unsafeElements
+		 */
+		this.unsafeElements = [ 'script', 'style' ];
+
+		/**
+		 * The DOM Document used to create DOM nodes.
+		 *
+		 * @type {Document}
+		 * @private
+		 */
+		this._domDocument = this.renderingMode === 'editing' ? global.document : global.document.implementation.createHTMLDocument( '' );
 
 		/**
 		 * The DOM-to-view mapping.
@@ -222,22 +255,121 @@ export default class DomConverter {
 	}
 
 	/**
+	 * Decides whether a given pair of attribute key and value should be passed further down the pipeline.
+	 *
+	 * @param {String} attributeKey
+	 * @param {String} attributeValue
+	 * @param {String} elementName Element name in lower case.
+	 * @returns {Boolean}
+	 */
+	shouldRenderAttribute( attributeKey, attributeValue, elementName ) {
+		if ( this.renderingMode === 'data' ) {
+			return true;
+		}
+
+		attributeKey = attributeKey.toLowerCase();
+
+		if ( attributeKey.startsWith( 'on' ) ) {
+			return false;
+		}
+
+		if (
+			attributeKey === 'srcdoc' &&
+			attributeValue.match( /\bon\S+\s*=|javascript:|<\s*\/*script/i )
+		) {
+			return false;
+		}
+
+		if (
+			elementName === 'img' &&
+			( attributeKey === 'src' || attributeKey === 'srcset' )
+		) {
+			return true;
+		}
+
+		if ( elementName === 'source' && attributeKey === 'srcset' ) {
+			return true;
+		}
+
+		if ( attributeValue.match( /^\s*(javascript:|data:(image\/svg|text\/x?html))/i ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Set `domElement`'s content using provided `html` argument. Apply necessary filtering for the editing pipeline.
+	 *
+	 * @param {Element} domElement DOM element that should have `html` set as its content.
+	 * @param {String} html Textual representation of the HTML that will be set on `domElement`.
+	 */
+	setContentOf( domElement, html ) {
+		// For data pipeline we pass the HTML as-is.
+		if ( this.renderingMode === 'data' ) {
+			domElement.innerHTML = html;
+
+			return;
+		}
+
+		const document = new DOMParser().parseFromString( html, 'text/html' );
+		const fragment = document.createDocumentFragment();
+		const bodyChildNodes = document.body.childNodes;
+
+		while ( bodyChildNodes.length > 0 ) {
+			fragment.appendChild( bodyChildNodes[ 0 ] );
+		}
+
+		const treeWalker = document.createTreeWalker( fragment, NodeFilter.SHOW_ELEMENT );
+		const nodes = [];
+
+		let currentNode;
+
+		// eslint-disable-next-line no-cond-assign
+		while ( currentNode = treeWalker.nextNode() ) {
+			nodes.push( currentNode );
+		}
+
+		for ( const currentNode of nodes ) {
+			// Go through nodes to remove those that are prohibited in editing pipeline.
+			for ( const attributeName of currentNode.getAttributeNames() ) {
+				this.setDomElementAttribute( currentNode, attributeName, currentNode.getAttribute( attributeName ) );
+			}
+
+			const elementName = currentNode.tagName.toLowerCase();
+
+			// There are certain nodes, that should be renamed to <span> in editing pipeline.
+			if ( this._shouldRenameElement( elementName ) ) {
+				_logUnsafeElement( elementName );
+
+				currentNode.replaceWith( this._createReplacementDomElement( elementName, currentNode ) );
+			}
+		}
+
+		// Empty the target element.
+		while ( domElement.firstChild ) {
+			domElement.firstChild.remove();
+		}
+
+		domElement.append( fragment );
+	}
+
+	/**
 	 * Converts the view to the DOM. For all text nodes, not bound elements and document fragments new items will
 	 * be created. For bound elements and document fragments the method will return corresponding items.
 	 *
 	 * @param {module:engine/view/node~Node|module:engine/view/documentfragment~DocumentFragment} viewNode
 	 * View node or document fragment to transform.
-	 * @param {Document} domDocument Document which will be used to create DOM nodes.
 	 * @param {Object} [options] Conversion options.
 	 * @param {Boolean} [options.bind=false] Determines whether new elements will be bound.
 	 * @param {Boolean} [options.withChildren=true] If `true`, node's and document fragment's children will be converted too.
 	 * @returns {Node|DocumentFragment} Converted node or DocumentFragment.
 	 */
-	viewToDom( viewNode, domDocument, options = {} ) {
+	viewToDom( viewNode, options = {} ) {
 		if ( viewNode.is( '$text' ) ) {
 			const textData = this._processDataFromViewText( viewNode );
 
-			return domDocument.createTextNode( textData );
+			return this._domDocument.createTextNode( textData );
 		} else {
 			if ( this.mapViewToDom( viewNode ) ) {
 				return this.mapViewToDom( viewNode );
@@ -247,17 +379,17 @@ export default class DomConverter {
 
 			if ( viewNode.is( 'documentFragment' ) ) {
 				// Create DOM document fragment.
-				domElement = domDocument.createDocumentFragment();
+				domElement = this._domDocument.createDocumentFragment();
 
 				if ( options.bind ) {
 					this.bindDocumentFragments( domElement, viewNode );
 				}
 			} else if ( viewNode.is( 'uiElement' ) ) {
 				if ( viewNode.name === '$comment' ) {
-					domElement = domDocument.createComment( viewNode.getCustomProperty( '$rawContent' ) );
+					domElement = this._domDocument.createComment( viewNode.getCustomProperty( '$rawContent' ) );
 				} else {
 					// UIElement has its own render() method (see #799).
-					domElement = viewNode.render( domDocument );
+					domElement = viewNode.render( this._domDocument, this );
 				}
 
 				if ( options.bind ) {
@@ -267,16 +399,20 @@ export default class DomConverter {
 				return domElement;
 			} else {
 				// Create DOM element.
-				if ( viewNode.hasAttribute( 'xmlns' ) ) {
-					domElement = domDocument.createElementNS( viewNode.getAttribute( 'xmlns' ), viewNode.name );
+				if ( this._shouldRenameElement( viewNode.name ) ) {
+					_logUnsafeElement( viewNode.name );
+
+					domElement = this._createReplacementDomElement( viewNode.name );
+				} else if ( viewNode.hasAttribute( 'xmlns' ) ) {
+					domElement = this._domDocument.createElementNS( viewNode.getAttribute( 'xmlns' ), viewNode.name );
 				} else {
-					domElement = domDocument.createElement( viewNode.name );
+					domElement = this._domDocument.createElement( viewNode.name );
 				}
 
 				// RawElement take care of their children in RawElement#render() method which can be customized
 				// (see https://github.com/ckeditor/ckeditor5/issues/4469).
 				if ( viewNode.is( 'rawElement' ) ) {
-					viewNode.render( domElement );
+					viewNode.render( domElement, this );
 				}
 
 				if ( options.bind ) {
@@ -285,12 +421,12 @@ export default class DomConverter {
 
 				// Copy element's attributes.
 				for ( const key of viewNode.getAttributeKeys() ) {
-					domElement.setAttribute( key, viewNode.getAttribute( key ) );
+					this.setDomElementAttribute( domElement, key, viewNode.getAttribute( key ), viewNode );
 				}
 			}
 
 			if ( options.withChildren !== false ) {
-				for ( const child of this.viewChildrenToDom( viewNode, domDocument, options ) ) {
+				for ( const child of this.viewChildrenToDom( viewNode, options ) ) {
 					domElement.appendChild( child );
 				}
 			}
@@ -300,31 +436,99 @@ export default class DomConverter {
 	}
 
 	/**
+	 * Sets the attribute on a DOM element.
+	 *
+	 * **Note**: To remove the attribute, use {@link #removeDomElementAttribute}.
+	 *
+	 * @param {HTMLElement} domElement The DOM element the attribute should be set on.
+	 * @param {String} key The name of the attribute.
+	 * @param {String} value The value of the attribute.
+	 * @param {module:engine/view/element~Element} [relatedViewElement] The view element related to the `domElement` (if there is any).
+	 * It helps decide whether the attribute set is unsafe. For instance, view elements created via the
+	 * {@link module:engine/view/downcastwriter~DowncastWriter} methods can allow certain attributes that would normally be filtered out.
+	 */
+	setDomElementAttribute( domElement, key, value, relatedViewElement = null ) {
+		const shouldRenderAttribute = this.shouldRenderAttribute( key, value, domElement.tagName.toLowerCase() ) ||
+			relatedViewElement && relatedViewElement.shouldRenderUnsafeAttribute( key );
+
+		if ( !shouldRenderAttribute ) {
+			logWarning( 'domconverter-unsafe-attribute-detected', { domElement, key, value } );
+		}
+
+		// The old value was safe but the new value is unsafe.
+		if ( domElement.hasAttribute( key ) && !shouldRenderAttribute ) {
+			domElement.removeAttribute( key );
+		}
+		// The old value was unsafe (but prefixed) but the new value will be safe (will be unprefixed).
+		else if ( domElement.hasAttribute( UNSAFE_ATTRIBUTE_NAME_PREFIX + key ) && shouldRenderAttribute ) {
+			domElement.removeAttribute( UNSAFE_ATTRIBUTE_NAME_PREFIX + key );
+		}
+
+		// If the attribute should not be rendered, rename it (instead of removing) to give developers some idea of what
+		// is going on (https://github.com/ckeditor/ckeditor5/issues/10801).
+		domElement.setAttribute( shouldRenderAttribute ? key : UNSAFE_ATTRIBUTE_NAME_PREFIX + key, value );
+	}
+
+	/**
+	 * Removes an attribute from a DOM element.
+	 *
+	 * **Note**: To set the attribute, use {@link #setDomElementAttribute}.
+	 *
+	 * @param {HTMLElement} domElement The DOM element the attribute should be removed from.
+	 * @param {String} key The name of the attribute.
+	 */
+	removeDomElementAttribute( domElement, key ) {
+		// See #_createReplacementDomElement() to learn what this is.
+		if ( key == UNSAFE_ELEMENT_REPLACEMENT_ATTRIBUTE ) {
+			return;
+		}
+
+		domElement.removeAttribute( key );
+
+		// See setDomElementAttribute() to learn what this is.
+		domElement.removeAttribute( UNSAFE_ATTRIBUTE_NAME_PREFIX + key );
+	}
+
+	/**
 	 * Converts children of the view element to DOM using the
 	 * {@link module:engine/view/domconverter~DomConverter#viewToDom} method.
 	 * Additionally, this method adds block {@link module:engine/view/filler filler} to the list of children, if needed.
 	 *
 	 * @param {module:engine/view/element~Element|module:engine/view/documentfragment~DocumentFragment} viewElement Parent view element.
-	 * @param {Document} domDocument Document which will be used to create DOM nodes.
 	 * @param {Object} options See {@link module:engine/view/domconverter~DomConverter#viewToDom} options parameter.
 	 * @returns {Iterable.<Node>} DOM nodes.
 	 */
-	* viewChildrenToDom( viewElement, domDocument, options = {} ) {
+	* viewChildrenToDom( viewElement, options = {} ) {
 		const fillerPositionOffset = viewElement.getFillerOffset && viewElement.getFillerOffset();
 		let offset = 0;
 
 		for ( const childView of viewElement.getChildren() ) {
 			if ( fillerPositionOffset === offset ) {
-				yield this._getBlockFiller( domDocument );
+				yield this._getBlockFiller();
 			}
 
-			yield this.viewToDom( childView, domDocument, options );
+			const transparentRendering = childView.is( 'element' ) && childView.getCustomProperty( 'dataPipeline:transparentRendering' );
+
+			if ( transparentRendering && this.renderingMode == 'data' ) {
+				yield* this.viewChildrenToDom( childView, options );
+			} else {
+				if ( transparentRendering ) {
+					/**
+					 * The `dataPipeline:transparentRendering` flag is supported only in the data pipeline.
+					 *
+					 * @error domconverter-transparent-rendering-unsupported-in-editing-pipeline
+					 */
+					logWarning( 'domconverter-transparent-rendering-unsupported-in-editing-pipeline', { viewElement: childView } );
+				}
+
+				yield this.viewToDom( childView, options );
+			}
 
 			offset++;
 		}
 
 		if ( fillerPositionOffset === offset ) {
-			yield this._getBlockFiller( domDocument );
+			yield this._getBlockFiller();
 		}
 	}
 
@@ -339,7 +543,7 @@ export default class DomConverter {
 		const domStart = this.viewPositionToDom( viewRange.start );
 		const domEnd = this.viewPositionToDom( viewRange.end );
 
-		const domRange = document.createRange();
+		const domRange = this._domDocument.createRange();
 		domRange.setStart( domStart.parent, domStart.offset );
 		domRange.setEnd( domEnd.parent, domEnd.offset );
 
@@ -444,7 +648,7 @@ export default class DomConverter {
 			return hostElement;
 		}
 
-		if ( this.isComment( domNode ) && options.skipComments ) {
+		if ( isComment( domNode ) && options.skipComments ) {
 			return null;
 		}
 
@@ -482,15 +686,15 @@ export default class DomConverter {
 				const attrs = domNode.attributes;
 
 				if ( attrs ) {
-					for ( let i = attrs.length - 1; i >= 0; i-- ) {
+					for ( let l = attrs.length, i = 0; i < l; i++ ) {
 						viewElement._setAttribute( attrs[ i ].name, attrs[ i ].value );
 					}
 				}
 
 				// Treat this element's content as a raw data if it was registered as such.
 				// Comment node is also treated as an element with raw data.
-				if ( this._isViewElementWithRawContent( viewElement, options ) || this.isComment( domNode ) ) {
-					const rawContent = this.isComment( domNode ) ? domNode.data : domNode.innerHTML;
+				if ( this._isViewElementWithRawContent( viewElement, options ) || isComment( domNode ) ) {
+					const rawContent = isComment( domNode ) ? domNode.data : domNode.innerHTML;
 
 					viewElement._setCustomProperty( '$rawContent', rawContent );
 
@@ -603,10 +807,10 @@ export default class DomConverter {
 	 * If structures are too different and it is not possible to find corresponding position then `null` will be returned.
 	 *
 	 * @param {Node} domParent DOM position parent.
-	 * @param {Number} domOffset DOM position offset.
+	 * @param {Number} [domOffset=0] DOM position offset. You can skip it when converting the inline filler node.
 	 * @returns {module:engine/view/position~Position} viewPosition View position.
 	 */
-	domPositionToView( domParent, domOffset ) {
+	domPositionToView( domParent, domOffset = 0 ) {
 		if ( this.isBlockFiller( domParent ) ) {
 			return this.domPositionToView( domParent.parentNode, indexOf( domParent ) );
 		}
@@ -860,16 +1064,6 @@ export default class DomConverter {
 	}
 
 	/**
-	 * Returns `true` when `node.nodeType` equals `Node.COMMENT_NODE`.
-	 *
-	 * @param {Node} node Node to check.
-	 * @returns {Boolean}
-	 */
-	isComment( node ) {
-		return node && node.nodeType == Node.COMMENT_NODE;
-	}
-
-	/**
 	 * Checks if the node is an instance of the block filler for this DOM converter.
 	 *
 	 *		const converter = new DomConverter( viewDocument, { blockFillerMode: 'br' } );
@@ -911,7 +1105,7 @@ export default class DomConverter {
 
 		// Since it takes multiple lines of code to check whether a "DOM Position" is before/after another "DOM Position",
 		// we will use the fact that range will collapse if it's end is before it's start.
-		const range = document.createRange();
+		const range = this._domDocument.createRange();
 
 		range.setStart( selection.anchorNode, selection.anchorOffset );
 		range.setEnd( selection.focusNode, selection.focusOffset );
@@ -986,17 +1180,16 @@ export default class DomConverter {
 	 * Returns the block {@link module:engine/view/filler filler} node based on the current {@link #blockFillerMode} setting.
 	 *
 	 * @private
-	 * @params {Document} domDocument
 	 * @returns {Node} filler
 	 */
-	_getBlockFiller( domDocument ) {
+	_getBlockFiller() {
 		switch ( this.blockFillerMode ) {
 			case 'nbsp':
-				return NBSP_FILLER( domDocument ); // eslint-disable-line new-cap
+				return NBSP_FILLER( this._domDocument ); // eslint-disable-line new-cap
 			case 'markedNbsp':
-				return MARKED_NBSP_FILLER( domDocument ); // eslint-disable-line new-cap
+				return MARKED_NBSP_FILLER( this._domDocument ); // eslint-disable-line new-cap
 			case 'br':
-				return BR_FILLER( domDocument ); // eslint-disable-line new-cap
+				return BR_FILLER( this._domDocument ); // eslint-disable-line new-cap
 		}
 	}
 
@@ -1353,7 +1546,7 @@ export default class DomConverter {
 	 * @returns {Element}
 	 */
 	_createViewElement( node, options ) {
-		if ( this.isComment( node ) ) {
+		if ( isComment( node ) ) {
 			return new ViewUIElement( this.document, '$comment' );
 		}
 
@@ -1372,6 +1565,47 @@ export default class DomConverter {
 	 */
 	_isViewElementWithRawContent( viewElement, options ) {
 		return options.withChildren !== false && this._rawContentElementMatcher.match( viewElement );
+	}
+
+	/**
+	 * Checks whether a given element name should be renamed in a current rendering mode.
+	 *
+	 * @private
+	 * @param {String} elementName The name of view element.
+	 * @returns {Boolean}
+	 */
+	_shouldRenameElement( elementName ) {
+		const name = elementName.toLowerCase();
+
+		return this.renderingMode === 'editing' && this.unsafeElements.includes( name );
+	}
+
+	/**
+	 * Return a <span> element with a special attribute holding the name of the original element.
+	 * Optionally, copy all the attributes of the original element if that element is provided.
+	 *
+	 * @private
+	 * @param {String} elementName The name of view element.
+	 * @param {Element} [originalDomElement] The original DOM element to copy attributes and content from.
+	 * @returns {Element}
+	 */
+	_createReplacementDomElement( elementName, originalDomElement = null ) {
+		const newDomElement = this._domDocument.createElement( 'span' );
+
+		// Mark the span replacing a script as hidden.
+		newDomElement.setAttribute( UNSAFE_ELEMENT_REPLACEMENT_ATTRIBUTE, elementName );
+
+		if ( originalDomElement ) {
+			while ( originalDomElement.firstChild ) {
+				newDomElement.appendChild( originalDomElement.firstChild );
+			}
+
+			for ( const attributeName of originalDomElement.getAttributeNames() ) {
+				newDomElement.setAttribute( attributeName, originalDomElement.getAttribute( attributeName ) );
+			}
+		}
+
+		return newDomElement;
 	}
 }
 
@@ -1423,6 +1657,20 @@ function hasBlockParent( domNode, blockElements ) {
 	return parent && parent.tagName && blockElements.includes( parent.tagName.toLowerCase() );
 }
 
+// Log to console the information about element that was replaced.
+// Check UNSAFE_ELEMENTS for all recognized unsafe elements.
+//
+// @param {String} elementName The name of the view element
+function _logUnsafeElement( elementName ) {
+	if ( elementName === 'script' ) {
+		logWarning( 'domconverter-unsafe-script-element-detected' );
+	}
+
+	if ( elementName === 'style' ) {
+		logWarning( 'domconverter-unsafe-style-element-detected' );
+	}
+}
+
 /**
  * Enum representing the type of the block filler.
  *
@@ -1434,4 +1682,49 @@ function hasBlockParent( domNode, blockElements ) {
  * used in the data.
  *
  * @typedef {String} module:engine/view/filler~BlockFillerMode
+ */
+
+/**
+ * While rendering the editor content, the {@link module:engine/view/domconverter~DomConverter} detected a `<script>` element that may
+ * disrupt the editing experience. To avoid this, the `<script>` element was replaced with `<span data-ck-unsafe-element="script"></span>`.
+ *
+ * @error domconverter-unsafe-script-element-detected
+ */
+
+/**
+ * While rendering the editor content, the {@link module:engine/view/domconverter~DomConverter} detected a `<style>` element that may affect
+ * the editing experience. To avoid this, the `<style>` element was replaced with `<span data-ck-unsafe-element="style"></span>`.
+ *
+ * @error domconverter-unsafe-style-element-detected
+ */
+
+/**
+ * The {@link module:engine/view/domconverter~DomConverter} detected an interactive attribute in the
+ * {@glink framework/guides/architecture/editing-engine#editing-pipeline editing pipeline}. For the best
+ * editing experience, the attribute was renamed to `data-ck-unsafe-attribute-[original attribute name]`.
+ *
+ * If you are the author of the plugin that generated this attribute and you want it to be preserved
+ * in the editing pipeline, you can configure this when creating the element
+ * using {@link module:engine/view/downcastwriter~DowncastWriter} during the
+ * {@glink framework/guides/architecture/editing-engine#conversion model–view conversion}. Methods such as
+ * {@link module:engine/view/downcastwriter~DowncastWriter#createContainerElement},
+ * {@link module:engine/view/downcastwriter~DowncastWriter#createAttributeElement}, or
+ * {@link module:engine/view/downcastwriter~DowncastWriter#createEmptyElement}
+ * accept an option that will disable filtering of specific attributes:
+ *
+ *		const paragraph = writer.createContainerElement( 'p',
+ *			{
+ *				class: 'clickable-paragraph',
+ *				onclick: 'alert( "Paragraph clicked!" )'
+ *			},
+ *			{
+ *				// Make sure the "onclick" attribute will pass through.
+ *				renderUnsafeAttributes: [ 'onclick' ]
+ *			}
+ *		);
+ *
+ * @error domconverter-unsafe-attribute-detected
+ * @param {HTMLElement} domElement The DOM element the attribute was set on.
+ * @param {String} key The original name of the attribute
+ * @param {String} value The value of the original attribute
  */

@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -101,6 +101,26 @@ describe( 'DropdownView', () => {
 					view.buttonView.fire( 'open' );
 
 					expect( values ).to.have.members( [ true, false, true ] );
+				} );
+			} );
+
+			describe( 'view#isOpen to view.panelView#focus', () => {
+				it( 'gets called upon opening', () => {
+					const spy = sinon.spy( view.panelView, 'focus' );
+
+					view.isOpen = true;
+
+					expect( spy.callCount ).to.equal( 1 );
+				} );
+
+				it( 'does not get called upon closing', () => {
+					view.isOpen = true;
+
+					const spy = sinon.spy( view.panelView, 'focus' );
+
+					view.isOpen = false;
+
+					expect( spy.callCount ).to.equal( 0 );
 				} );
 			} );
 
