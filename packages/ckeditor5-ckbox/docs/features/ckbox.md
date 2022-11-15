@@ -10,14 +10,17 @@ badges: [ premium ]
 
 # CKBox file manager
 
-This CKBox integration feature allows you to effortlessly and intuitively insert images as well as links to other files into the rich-text editor content. CKBox is a file manager and a file uploader that acts as a convenient interface for the cloud storage service. The CKBox feature provides a simple integration with this service for the CKEditor 5 WYSIWYG editor. To find out more about CKBox, the brand-new file manager, visit the [CKBox website](https://ckeditor.com/ckbox/).
+This CKBox integration feature allows you to effortlessly and intuitively insert images as well as links to other files into the rich-text editor content. CKBox is a file manager and a file uploader that acts as a convenient interface for the cloud storage service. The CKBox feature provides a simple integration with this service for the CKEditor 5 WYSIWYG editor. To find out more about CKBox, the brand-new file manager, visit the [CKBox website](https://ckeditor.com/ckbox/) and read the dedicated [CKBox documentation page](https://ckeditor.com/docs/ckbox/latest/guides/index.html).
 
-<info-box info>
-	CKBox is a commercial solution. Please [contact us](https://ckeditor.com/contact/) if you would like to purchase a license. Let us know if you have any feedback or questions!
+<info-box>
+	This is a premium feature and you need a subscription to use it. You can [purchase it here](https://ckeditor.com/pricing/) for your open source CKEditor implementation. [Contact us](https://ckeditor.com/contact/?sales=true#contact-form) if:
+	* CKEditor commercial license is needed for your application.
+	* You need on-premises (self-hosted) version of the service.
+	* You have other licensing questions.
 
-	You can also sign up for the [CKEditor Premium Features 30-day free trial](https://orders.ckeditor.com/trial/premium-features).
+	You can also sign up for the [CKEditor Premium Features 30-day free trial](https://orders.ckeditor.com/trial/premium-features) to test the feature.
 
-	This feature is enabled by default in all {@link installation/getting-started/predefined-builds predefined builds} for convenience, but the editor will still work properly without activating it.
+	This feature is enabled by default in all [predefined builds](https://ckeditor.com/docs/ckeditor5/latest/installation/getting-started/predefined-builds.html) for convenience, but the editor will still work properly without activating it.
 </info-box>
 
 ## Demo
