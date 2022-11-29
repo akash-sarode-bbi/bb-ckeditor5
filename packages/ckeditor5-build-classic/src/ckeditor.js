@@ -33,26 +33,6 @@ import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
 import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformation';
 import CloudServices from '@ckeditor/ckeditor5-cloud-services/src/cloudservices';
 
-
-import RealTimeCollaborativeEditing from '@ckeditor/ckeditor5-real-time-collaboration/src/realtimecollaborativeediting';
-
-
-// The following plugins enable real-time collaborative comments.
-// You do not need to import them if you do not want this integration.
-import Comments from '@ckeditor/ckeditor5-comments/src/comments';
-import RealTimeCollaborativeComments from '@ckeditor/ckeditor5-real-time-collaboration/src/realtimecollaborativecomments';
-
-// The following plugins enable real-time collaborative track changes and are optional.
-// They depend on the `Comments` and `RealTimeCollaborativeComments` from above, so make sure to include
-// them in the editor plugins if you want to integrate the real-time collaborative track changes.
-// You do not need to import them if you do not want this integration.
-import TrackChanges from '@ckeditor/ckeditor5-track-changes/src/trackchanges';
-import RealTimeCollaborativeTrackChanges from '@ckeditor/ckeditor5-real-time-collaboration/src/realtimecollaborativetrackchanges';
-
-// The following plugin enables the users presence list and is optional.
-// You do not need to import it if you do not want to integrate the user list.
-import PresenceList from '@ckeditor/ckeditor5-real-time-collaboration/src/presencelist';
-
 export default class ClassicEditor extends ClassicEditorBase {}
 
 // Plugins to include in the build.
@@ -82,11 +62,7 @@ ClassicEditor.builtinPlugins = [
 	PictureEditing,
 	Table,
 	TableToolbar,
-	TextTransformation,
-	RealTimeCollaborativeEditing,
-    Comments, RealTimeCollaborativeComments,
-    TrackChanges, RealTimeCollaborativeTrackChanges,
-    PresenceList
+	TextTransformation
 ];
 
 // Editor configuration.

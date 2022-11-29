@@ -35,7 +35,6 @@ import TodoList from '@ckeditor/ckeditor5-list/src/todolist';
 import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline';
 import CloudServices from '@ckeditor/ckeditor5-cloud-services/src/cloudservices';
 import ImageUpload from '@ckeditor/ckeditor5-image/src/imageupload';
-import RemoveFormat from '@ckeditor/ckeditor5-remove-format/src/removeformat';
 
 import GeneralHtmlSupport from '../../src/generalhtmlsupport';
 
@@ -49,7 +48,6 @@ ClassicEditor
 			Alignment, IndentBlock,
 			PageBreak, HorizontalLine,
 			ImageUpload, CloudServices,
-			RemoveFormat,
 			SourceEditing,
 			GeneralHtmlSupport
 		],
@@ -72,9 +70,7 @@ ClassicEditor
 			'|',
 			'pageBreak', 'horizontalLine',
 			'|',
-			'undo', 'redo',
-			'|',
-			'RemoveFormat'
+			'undo', 'redo'
 		],
 		htmlSupport: {
 			allow: [

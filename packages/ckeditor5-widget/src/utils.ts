@@ -136,10 +136,8 @@ export function toWidget(
 	writer.setCustomProperty( 'widget', true, element );
 	element.getFillerOffset = getFillerOffset;
 
-	writer.setCustomProperty( 'widgetLabel', [], element );
-
 	if ( options.label ) {
-		setLabel( element, options.label );
+		setLabel( element, options.label, writer );
 	}
 
 	if ( options.hasSelectionHandle ) {
@@ -227,12 +225,11 @@ export function setHighlightHandling(
  * {@link ~getLabel `getLabel()`}.
  *
  * @param {module:engine/view/element~Element} element
- * @param {string|Function} labelOrCreator
+ * @param {String|Function} labelOrCreator
+ * @param {module:engine/view/downcastwriter~DowncastWriter} writer
  */
-export function setLabel( element: Element, labelOrCreator: string | ( () => string ) ): void {
-	const widgetLabel = element.getCustomProperty( 'widgetLabel' ) as Array<string | ( () => string )>;
-
-	widgetLabel.push( labelOrCreator );
+export function setLabel( element: Element, labelOrCreator: string | ( () => string ), writer: DowncastWriter ): void {
+	writer.setCustomProperty( 'widgetLabel', labelOrCreator, element );
 }
 
 /**
@@ -242,15 +239,13 @@ export function setLabel( element: Element, labelOrCreator: string | ( () => str
  * @returns {String}
  */
 export function getLabel( element: Element ): string {
-	const widgetLabel = element.getCustomProperty( 'widgetLabel' ) as Array<string | ( () => string )>;
+	const labelCreator = element.getCustomProperty( 'widgetLabel' ) as string | ( () => string ) | undefined;
 
-	return widgetLabel.reduce( ( prev: string, current: string | ( () => string ) ) => {
-		if ( typeof current === 'function' ) {
-			return prev ? prev + '. ' + current() : current();
-		} else {
-			return prev ? prev + '. ' + current : current;
-		}
-	}, '' );
+	if ( !labelCreator ) {
+		return '';
+	}
+
+	return typeof labelCreator == 'function' ? labelCreator() : labelCreator;
 }
 
 /**

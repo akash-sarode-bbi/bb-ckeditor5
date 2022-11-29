@@ -360,9 +360,7 @@ describe( 'Widget', () => {
 	it( 'should use element\'s label to set fake selection if one is provided', () => {
 		setModelData( model, '[<widget>foo bar</widget>]' );
 
-		expect( viewDocument.selection.fakeSelectionLabel ).to.equal(
-			'element label. Press Enter to type after or press Shift + Enter to type before the widget'
-		);
+		expect( viewDocument.selection.fakeSelectionLabel ).to.equal( 'element label' );
 	} );
 
 	it( 'should add selected class when other content is selected with widget', () => {

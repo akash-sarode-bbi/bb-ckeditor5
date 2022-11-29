@@ -609,8 +609,7 @@ export default {
 			view: 'strong',
 			coupledAttribute: 'bold',
 			attributeProperties: {
-				copyOnEnter: true,
-				isFormatting: true
+				copyOnEnter: true
 			}
 		},
 		{
@@ -618,8 +617,7 @@ export default {
 			view: 'b',
 			coupledAttribute: 'bold',
 			attributeProperties: {
-				copyOnEnter: true,
-				isFormatting: true
+				copyOnEnter: true
 			}
 		},
 		{
@@ -627,8 +625,7 @@ export default {
 			view: 'i',
 			coupledAttribute: 'italic',
 			attributeProperties: {
-				copyOnEnter: true,
-				isFormatting: true
+				copyOnEnter: true
 			}
 		},
 		{
@@ -636,8 +633,7 @@ export default {
 			view: 'em',
 			coupledAttribute: 'italic',
 			attributeProperties: {
-				copyOnEnter: true,
-				isFormatting: true
+				copyOnEnter: true
 			}
 		},
 		{
@@ -645,8 +641,7 @@ export default {
 			view: 's',
 			coupledAttribute: 'strikethrough',
 			attributeProperties: {
-				copyOnEnter: true,
-				isFormatting: true
+				copyOnEnter: true
 			}
 		},
 		// TODO According to HTML-spec can behave as div-like element, although CKE4 only handles it as an inline element.
@@ -671,8 +666,7 @@ export default {
 			view: 'u',
 			coupledAttribute: 'underline',
 			attributeProperties: {
-				copyOnEnter: true,
-				isFormatting: true
+				copyOnEnter: true
 			}
 		},
 		{
@@ -680,8 +674,7 @@ export default {
 			view: 'sub',
 			coupledAttribute: 'subscript',
 			attributeProperties: {
-				copyOnEnter: true,
-				isFormatting: true
+				copyOnEnter: true
 			}
 		},
 		{
@@ -689,8 +682,7 @@ export default {
 			view: 'sup',
 			coupledAttribute: 'superscript',
 			attributeProperties: {
-				copyOnEnter: true,
-				isFormatting: true
+				copyOnEnter: true
 			}
 		},
 		{
@@ -698,8 +690,7 @@ export default {
 			view: 'code',
 			coupledAttribute: 'code',
 			attributeProperties: {
-				copyOnEnter: true,
-				isFormatting: true
+				copyOnEnter: true
 			}
 		},
 		{
