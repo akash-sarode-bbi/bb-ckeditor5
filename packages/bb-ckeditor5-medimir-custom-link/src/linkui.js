@@ -339,6 +339,9 @@ export default class LinkUI extends Plugin {
 		// hide form.
 		this._linkModal.hide();
 
+		const link = document.getElementById( 'link' );
+		link.value = '';
+
 		this.stopListening( editor.ui, 'update' );
 		// Make sure the focus always gets back to the editable _before_ removing the focused form view.
 		// Doing otherwise causes issues in some browsers. See https://github.com/ckeditor/ckeditor5-link/issues/193.
