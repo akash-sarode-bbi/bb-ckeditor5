@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>CKEditor 5 – classic editor build – development sample</title>
+	<style>
+		.ck-editor {
+			margin: 20px !important;
+		}
+	</style>
+	<link rel="stylesheet" href="../../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+
+	<h1>CKEditor 5 – classic editor build – development sample</h1>
+
+	<div id="editor">
+		<h2>Sample</h2>
+
+		<p>This is an instance of the <a
+				href="https://ckeditor.com/docs/ckeditor5/latest/installation/getting-started/predefined-builds.html#classic-editor">classic
+				editor build</a>.</p>
+
+		<figure class="image">
+			<img src="../tests/manual/sample.jpg" alt="Autumn fields" />
+		</figure>
+
+		<p>You can use this sample to validate whether your <a
+				href="https://ckeditor.com/docs/ckeditor5/latest/installation/advanced/alternative-setups/custom-builds.html">custom
+				build</a> works fine.</p>
+	</div>
+
+	<script src="../build/ckeditor.js"></script>
+	<script src="../ckfinder/ckfinder.js"></script>
+	<script>
+
+		function getToolList() {
+			const fetchOptions = {
+				method: 'get',
+				mode: 'no-cors'
+			};
+			return fetch(`http://localhost:8888/bb-ckeditor5/packages/bb-ckeditor5-medimir/sample/media/tools.json`, fetchOptions)
+				.then(response => response.json());
+		}
+
+		function sleep(ms) {
+			return new Promise(resolve => setTimeout(resolve, ms));
+		}
+
+
+		loadCkeditor();
+
+		async function loadCkeditor() {
+			styleDefinitions = await getStyleItemList();
+
+			ClassicEditor.create(document.querySelector('#editor'), {
+				ckfinder: { // Upload the images to the server using the CKFinder QuickUpload command.
+					uploadUrl: 'http://localhost:8888/bb-ckeditor5/packages/bb-ckeditor5-medimir/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json'
+				},
+				link: {
+					data: {
+						tool: getToolList,
+					},
+				},
+				templates: [{
+					'title': 'Arzneimittel pocket Table Template',
+					'image': 'template2.gif',
+					'description': 'A table template for Arzneimittel pocket.',
+					'html': '<table class=\"recomm-table\">\n <colgroup>\n <col style=\"width:64%;\" \/>\n <col style=\"width:18%;\" \/>\n <col style=\"width:18%;\" \/>\n <\/colgroup>\n <thead>\n <tr>\n <th class=\"recomm-header1\" colspan=\"3\">\n <p class=\"table-title1\">Recommendations for Clinical Assessment: History and Physical Examination\n <\/p>\n\n <p class=\"table-title1\">Referenced studies that support the recommendations are summarized in the Online Data Supplements.<\/p>\n <\/th>\n <\/tr>\n <tr>\n <th class=\"recomm-header2\">\n <p class=\"table-title2\">Rec\u00adom\u00admen\u00adda\u00adtions<\/p>\n <\/th>\n <th class=\"recomm-header2\">\n <p class=\"table-title2-cent\"><a href=\"abbr_COR\">COR<\/a><\/p>\n <\/th>\n <th class=\"recomm-header2\">\n <p class=\"table-title2-cent\"><a href=\"abbr_LOE\">LOE<\/a><\/p>\n <\/th>\n <\/tr>\n<\/thead><tbody><tr>\n <td>\n <p class=\"listing-1\">1.In patients with HF, vital signs and evidence of clinical congestion should be assessed at each encounter to guide overall management, including adjustment of diuretics and other medications<\/span> (<a href=\"ref_ENAS6600_18.0.0.0#sec8\">1-6<\/a>)<\/p>\n <\/td>\n <td class=\"class1\">\n <p class=\"table-text\">1<\/p>\n <\/td>\n <td class=\"levelB\">\n <p class=\"table-text\">B-NR<\/p>\n <\/td>\n <\/tr>\n <tr>\n <td>\n <p class=\"listing-1\">2.In patients with symptomatic HF, clinical factors indicating the presence of advanced HF should be sought via the history and physical examination<\/span> (<a href=\"ref_ENAS6600_18.0.0.0#sec8\">7-12<\/a>)<\/p>\n <\/td>\n\n <td class=\"class1\">\n <p class=\"table-text\">1<\/p>\n <\/td>\n <td class=\"levelB\">\n <p class=\"table-text\">B-NR<\/p>\n <\/td>\n <\/tr>\n <tr>\n <td>\n <p class=\"listing-1\">3.In patients with cardiomyopathy, a 3-generation family history should be obtained or updated when assessing the cause of the cardiomyopathy to identify possible inherited disease (<a href=\"ref_ENAS6600_18.0.0.0#sec8\">13<\/a>,\n <a href=\"ref_ENAS6600_18.0.0.0#sec8\">14<\/a>).\n <\/p>\n <\/td>\n\n <td class=\"class1\">\n <p class=\"table-text\">1<\/p>\n <\/td>\n <td class=\"levelB\">\n <p class=\"table-text\">B-NR<\/p>\n <\/td>\n <\/tr>\n <tr>\n <td>\n\n <p class=\"listing-1\">4.In patients presenting with HF, a thorough history and physical examination should direct diagnostic strategies to uncover specific causes that may warrant disease-specific management (<a href=\"ref_ENAS6600_18.0.0.0#sec8\">15<\/a>,\n <a href=\"ref_ENAS6600_18.0.0.0#sec8\">16<\/a>).\n <\/p>\n <\/td>\n\n <td class=\"class1\">\n <p class=\"table-text\">1<\/p>\n <\/td>\n <td class=\"levelB\">\n <p class=\"table-text\">B-NR<\/p>\n <\/td>\n <\/tr>\n <tr>\n <td>\n\n <p class=\"listing-1\">5.In patients presenting with HF, a thorough history and physical examination should be obtained and performed to identify cardiac and noncardiac disorders, lifestyle and behavioral factors, and social determinants of health that\n might cause or accelerate the development or progression of HF.<\/p>\n <\/td>\n\n <td class=\"class1\">\n <p class=\"table-text\">1<\/p>\n <\/td>\n <td class=\"levelC\">\n <p class=\"table-text\">C-EO<\/p>\n <\/td>\n <\/tr>\n <\/tbody>\n <\/table>'
+				},
+				{
+					'title': 'Arzneimittel pocket DANI-RECHNER Table Template',
+					'image': 'template2.gif',
+					'description': 'A table template for  DANI-RECHNER of Arzneimittel pocket.',
+					'html': '<table class="info table"> <colgroup> <col class="item" style="width:10%;" /> <col class="itemvalue" style="width:60%;" /> <col class="item" style="width:20%;" /> <col class="itemvalue" style="width:10%;" /> </colgroup> <tbody> <tr> <td><b>Rp</b></td> <td>&nbsp;</td> <td><b>HWZ</b></td> <td>&nbsp;</td> </tr> <tr> <td><b>Q<font size="-8pt">0</font></b></td> <td>&nbsp;</td> <td><b>PPB</b></td> <td>&nbsp;</td> </tr> <tr> <td colspan="2"><a href="">DANI-RECH&shy;NER</a></td> <td colspan="2"><a href="">DANI-DATEN</a></td> </tr> <tr> <td><b>PRC</b></td> <td>&nbsp;</td> <td><b>Lact</b></td> <td>&nbsp;</td> </tr> </tbody> </table> <div class="gap">&nbsp;</div> <div class="head"> <div class="headline">Han&shy;dels&shy;na&shy;men, Ap&shy;pli&shy;ka&shy;ti&shy;ons&shy;for&shy;men</div> </div> <div class="detail"> <div class="paragraph">&nbsp;</div> </div> <div class="gap">&nbsp;</div> <div class="head"> <div class="fi_but"><a href="">FI </a></div> <div class="headline">In&shy;di&shy;ka&shy;tio&shy;nen, Do&shy;sie&shy;run&shy;gen</div> </div> <div class="detail"> <div class="paragraph">&nbsp;</div> </div> <div class="gap">&nbsp;</div> <div class="head"><!--<a href=""><div class="fi_but">FI</div></a>--> <div class="headline">Wirk&shy;me&shy;cha&shy;nis&shy;men, Wir&shy;kun&shy;gen</div> </div> <div class="detail"> <div class="paragraph">&nbsp;</div> </div> <div class="gap">&nbsp;</div> <div class="head"> <div class="fi_but"><a href="">FI </a></div> <div class="headline">Un&shy;er&shy;w&uuml;nsch&shy;te Wir&shy;kun&shy;gen</div> </div> <div class="detail"> <div class="paragraph">&nbsp;</div> </div> <div class="gap">&nbsp;</div> <div class="head"> <div class="fi_but"><a href="">FI </a></div> <div class="headline">Kon&shy;tra&shy;in&shy;di&shy;ka&shy;tio&shy;nen</div> </div> <div class="detail"> <div class="paragraph">&nbsp;</div> </div>'
+				},
+				{
+					'title': 'ESC Recommendation Table Template',
+					'image': 'template3.gif',
+					'description': 'A table template for ESC recommendation.',
+					'html': '<table class="table"> <colgroup><col style="width:64%;" /> <col style="width:18%;" />  <col style="width:18%;" /> </colgroup> <thead> <tr> <th class="table-header1" colspan="3">  <p class="table-title1">Rec&shy;om&shy;men&shy;da&shy;tions for <-- enter here specific name --></p> </th> </tr>   <tr>   <th class="table-header2">  <p class="table-title2">Rec&shy;om&shy;men&shy;da&shy;tions</p> </th> <th class="table-header2"> <p class="table-title2-cent">Class<span class="text-sup">a</span></p></th>   <th class="table-header2"> <p class="table-title2-cent">Lev&shy;el<span class="text-sup">b</span></p> </th> </tr>  <tr>  <th class="table-header3" colspan="3">    <p class="table-title3">&nbsp;</p> </th> </tr> </thead>   <tbody>   <tr>    <td class="col-gray2">    <p class="table-text">&nbsp;</p>  </td>  <td class="class-i">  <p>I</p>  </td>    <td class="level-a">   <p>A</p>    </td> </tr>   <tr>   <td class="col-gray2">   <p class="table-text">&nbsp;</p>  </td>  <td class="class-ii-a">     <p>IIa</p>  </td>  <td class="level-b">   <p>B</p>   </td>  </tr> <tr>   <td class="col-gray2"><p class="table-text">&nbsp;</p>    </td>    <td class="class-ii-b">    <p>IIb</p>    </td>    <td class="level-c">    <p>C</p>    </td>   </tr>  <tr>    <td class="col-gray2">    <p class="table-text">&nbsp;</p>    </td>    <td class="class-iii">    <p>III</p>    </td>    <td class="level-a"> <p>A</p>  </td>  </tr> </tbody> </table>'
+				},
+				{
+					'title': 'AHA Recommendation Table Template',
+					'image': 'template3.gif',
+					'description': 'A table template for AHA recommendation.',
+					'html': '<table class="recomm-table"> <colgroup> <col style="width:64%;" /> <col style="width:18%;" /> <col style="width:18%;" /> </colgroup> <thead> <tr> <th class="recomm-header1" colspan="3"> <p class="table-title1">Rec&shy;om&shy;men&shy;da&shy;tions for&nbsp;&lt;-- enter here specific name --&gt;</p> </th> </tr></thead><tbody> <tr> <td class="recomm-header2"> <p class="table-title2">Rec&shy;om&shy;men&shy;da&shy;tion</p> </td> <td class="recomm-header2"> <p class="table-title2-cent"><a href="abbr_COR">COR</a></p> </td> <td class="recomm-header2"> <p class="table-title2-cent"><a href="abbr_LOE">LOE</a></p> </td> </tr> <tr> <td> <p >&nbsp;</p> </td> <td class="class1"> <p class="text">I</p> </td> <td class="levelA"> <p class="text">A</p> </td> </tr> <tr> <td> <p >&nbsp;</p> </td> <td class="class2a"> <p class="text">IIa</p> </td> <td class="levelB"> <p class="text">B</p> </td> </tr> <tr> <td> <p >&nbsp;</p> </td> <td class="class2b"> <p class="text">IIb</p> </td> <td class="levelC"> <p class="text">C</p> </td> </tr> <tr> <td>&nbsp;</td> <td class="class3"><span class="text">III</span></td> <td class="levelC"><span class="text">C</span></td> </tr> </tbody> </table>'
+				},
+				{
+					'title': 'ACC Recommendation Table Template',
+					'image': 'template3.gif',
+					'description': 'A table template for ACC recommendation.',
+					'html': '<table class="table"> <colgroup> <col style="width:60%;" /> <col style="width:20%;" /> <col style="width:20%;" /> </colgroup> <thead> <tr> <th class="table-header1" colspan="3"> <p class="table-title1"><!---Sec&shy;tion 3.5.--->Rec&shy;om&shy;men&shy;da&shy;tions for&nbsp;&lt;-- enter here specific name --&gt;</p> </th> </tr> <tr> <th class="table-header2"> <p class="table-title2">Rec&shy;om&shy;men&shy;da&shy;tions</p> </th> <th class="table-header2"> <p class="table-title2-cent"><a href="abbr_COR">COR</a></p> </th> <th class="table-header2"> <p class="table-title2-cent"><a href="abbr_LOE">LOE</a></p> </th> </tr> </thead><tbody><tr> <td> <p >&nbsp;</p> </td> <td class="class-1"> <p class="table-text-cent">I</p> </td> <td class="class-a"> <p class="table-text-cent">A</p> </td> </tr> <tr> <td> <p >&nbsp;</p> </td> <td class="class-2a"> <p class="table-text-cent">IIa</p> </td> <td class="class-b"> <p class="table-text-cent">B</p> </td> </tr> <tr> <td> <p >&nbsp;</p> </td> <td class="class-2b"> <p class="table-text-cent">IIa</p> </td> <td class="class-c"> <p class="table-text-cent">C</p> </td> </tr> <tr> <td> <p >&nbsp;</p> </td> <td class="class-3"> <p class="table-text-cent">III</p> </td> <td class="class-b"> <p class="table-text-cent">B</p> </td> </tr> </tbody> </table>'
+				},
+				{
+					'title': 'ESVS Recommendation Table Template',
+					'image': 'template3.gif',
+					'description': 'A table template for ESVS recommendation.',
+					'html': '<table class="table esvs_recommendation_table_template"> <colgroup> <col style="width:55%;" /> <col style="width:14%;" /> <col style="width:14%;" /> <col style="width:17%;" /> </colgroup> <tbody> <tr> <td class="col-gray1"> <p class="table-text"><span class="bold">Rec&shy;om&shy;men&shy;da&shy;tion</span></p> </td> <td class="col-gray1"> <p class="table-title2-cent"><a href="abbr_Cor">Cor</a></p> </td> <td class="col-gray1"> <p class="table-title2-cent"><a href="abbr_Loe">Loe</a></p> </td> <td class="col-gray1"> <p class="table-title2-cent"><a href="abbr_Ref">Ref</a></p> </td> </tr> <tr> <td class="col-gray1"> <p class="table-text">&nbsp;</p> </td> <td class="class-i"> <p class="text">I</p> </td> <td class="level-c"> <p class="text">C</p> </td> <td class="col-gray1"> <p class="text-cent"><a href="ref_no">Ref No.</a></p> </td> </tr> </tbody> </table>'
+				}
+				],
+				style: {
+					definitions: styleDefinitions
+				}
+			}).then(editor => {
+				window.editor = editor;
+			})
+				.catch(error => {
+					console.error('There was a problem initializing the editor.', error);
+				});
+
+		}
+
+
+		async function getStyleItemList() {
+			const validSelectors = /\w+\.\w+/;
+			const globalRegex = new RegExp('\\:{1,2}[^\\s]*');
+			appendStyle();
+			await sleep(2000);
+			let data = [];
+			const sheetArray = [...document.styleSheets[document.styleSheets.length - 1].cssRules];
+
+			const sheet = sheetArray.filter(
+				item => 'selectorText' in item && item.selectorText != '' &&
+					validSelectors.test(item.selectorText) &&
+					// escape selectors splitting the elements, leave only the class selector (.)
+					!(/(,|>|\+|~)/.test(item.selectorText)) &&
+					// escape attribute selectors: table[border="0"]
+					!(/\[[^\]]*/.test(item.selectorText)) &&
+					// escape Ids: div#main
+					!(/#[^\s]*/.test(item.selectorText)) &&
+					// escape pseudo-selectors and pseudo-elements: :hover :nth-child(2n+1) ::before
+					!(globalRegex.test(item.selectorText))
+			).map(item => {
+				item.selectorText = item.selectorText.replace('.ck-content ', '');
+				return item;
+			});
+
+			const cssItems = sheet.filter(item => /^((\w|-)+)\.(\w+)/.test(item.selectorText))
+				.map(item => {
+					const match = item.selectorText.match(/^((\w|-)+)\.((\w|-)+)/);
+					return {
+						name: match ? capitalize(match[3]) : '',
+						element: match ? match[1] : '',
+						classes: [match ? match[3] : '']
+					}
+				});
+			return cssItems;
+		}
+
+		function appendStyle() {
+			try {
+				// Get HTML head element
+				var head = document.getElementsByTagName('HEAD')[0];
+
+				// Create new link Element
+				var link = document.createElement('link');
+
+				// set the attributes for link element
+				link.rel = 'stylesheet';
+
+				link.type = 'text/css';
+
+				link.href = 'http://localhost:8888/bb-ckeditor5/packages/bb-ckeditor5-medimir/sample/media/ckeditor.css';
+
+				// Append link element to HTML head
+				head.appendChild(link);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+
+
+		function capitalize(input) {
+			return input.toLowerCase().split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
+		}
+
+	</script>
+
+</body>
+
+</html>
