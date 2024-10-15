@@ -1,10 +1,10 @@
 [
   {
     "toolIdentifier": "123",
-    "name": "abc"
+    "toolName": "abc"
   },
   {
     "toolIdentifier": "345",
-    "name": "pqr"
+    "toolName": "pqr"
   }
 ]

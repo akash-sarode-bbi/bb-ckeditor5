@@ -541,7 +541,7 @@ function toolHtmlGenerate( items ) {
 		<div class="form-check">
 			<input class="form-check-input me-1" name="listRadioInput" type="radio" value="${ d.toolIdentifier }"
 			id="input_${ d.toolIdentifier }">
-			<label class="form-check-label" for="input_${ d.toolIdentifier }">${ d.name }</label>
+			<label class="form-check-label" for="input_${ d.toolIdentifier }">${ d.toolName }</label>
 		</div>
 		</li>`;
 	}, '' );
