@@ -33,6 +33,8 @@ export default class LinkUI extends Plugin {
 		super( editor );
 		this._tool = {};
 		this._toolHtml = '';
+		this._uniqueId = null;
+		this._modelId = null;
 
 		/**
 		 * Stores link configurations.
@@ -57,6 +59,8 @@ export default class LinkUI extends Plugin {
 		const editor = this.editor;
 		const data = editor.config.get( 'link.data' );
 		const tool = data.tool;
+		this._modelId = `linkModal-${ editor.id }`;
+		this._uniqueId = editor.id;
 
 		editor.editing.view.addObserver( ClickObserver );
 
@@ -79,21 +83,26 @@ export default class LinkUI extends Plugin {
 
 		// modal creation code
 		let modalWrap;
-		if ( document.getElementById( 'ckeditorLinkModelWrap' ) ) {
-			modalWrap = document.getElementById( 'ckeditorLinkModelWrap' );
+		if ( document.getElementById( `ckeditorLinkModelWrap-${ this._uniqueId }` ) ) {
+			modalWrap = document.getElementById( `ckeditorLinkModelWrap-${ this._uniqueId }` );
 			modalWrap.innerHTML = '';
 		} else {
 			modalWrap = document.createElement( 'div' );
-			modalWrap.id = 'ckeditorLinkModelWrap';
+			modalWrap.id = `ckeditorLinkModelWrap-${ this._uniqueId }`;
 			document.body.append( modalWrap );
 		}
 
 		this._addModal( modalWrap );
-		const linkModalElement = document.getElementById( 'linkModal' );
+		const linkModalElement = document.getElementById( this._modelId );
 		this._linkModal = new Modal( linkModalElement, {
 			keyboard: false
 		} );
-		const unlinkButton = document.getElementById( 'unlinkButton' );
+
+		// Update all selectors to use unique IDs
+		const unlinkButton = modalWrap.querySelector( `#unlinkButton-${ this._uniqueId }` );
+		const linkType = modalWrap.querySelector( `#linkType-${ this._uniqueId }` );
+		const link = modalWrap.querySelector( `#link-${ this._uniqueId }` );
+		const list = modalWrap.querySelector( `#list-${ this._uniqueId }` );
 
 		this._createToolbarLinkButton();
 
@@ -104,13 +113,8 @@ export default class LinkUI extends Plugin {
 		const toolCallback = typeof tool == 'function' ? tool.bind( this.editor ) : this.createToolCallback( tool );
 		this._linkConfigurations.set( 'tool', { toolCallback } );
 
-		// get dom elements
-		const linkType = modalWrap.querySelector( '#linkType' );
-		const link = modalWrap.querySelector( '#link' );
-		const list = modalWrap.querySelector( '#list' );
-
 		// bind click event on model-success-button
-		modalWrap.querySelector( '.modal-success-button' ).onclick = () => {
+		modalWrap.querySelector( `.modal-success-button-${ this._uniqueId }` ).onclick = () => {
 			const linkTypeValue = linkType.value;
 			const listInput = modalWrap.querySelector( 'input[name="listRadioInput"]:checked' );
 			let linkValue = link.value;
@@ -128,7 +132,7 @@ export default class LinkUI extends Plugin {
 			}
 		};
 
-		document.querySelectorAll( '.close-modal-button' ).forEach( item => {
+		document.querySelectorAll( `.close-modal-button-${ this._uniqueId }` ).forEach( item => {
 			item.addEventListener( 'click', () => {
 				this._hideUI();
 			} );
@@ -221,29 +225,29 @@ export default class LinkUI extends Plugin {
 	 */
 	_addModal( modalWrap ) {
 		modalWrap.innerHTML = `
-			<div class="modal" tabindex="-1" id="linkModal">
+			<div class="modal" tabindex="-1" id="${ this._modelId }">
 				<div class="modal-dialog modal-dialog-scrollable modal-lg">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title">Add Link</h5>
-							<button type="button" class="btn-close close-modal-button" aria-label="Close"></button>
+							<button type="button" class="btn-close close-modal-button-${ this._uniqueId }" aria-label="Close"></button>
 						</div>
 						<div class="modal-body">
-							<select class="form-select mb-3" id="linkType">
+							<select class="form-select mb-3" id="linkType-${ this._uniqueId }">
 								<option selected value="">Select</option>
-								<option value="tool" id="toolSelectInput">Tool Link</option>
-								<option value="external" id="externalSelectInput">External Link</option>
+								<option value="tool" id="toolSelectInput-${ this._uniqueId }">Tool Link</option>
+								<option value="external" id="externalSelectInput-${ this._uniqueId }">External Link</option>
 							</select>
-							<input class="form-control d-none" id="link"/>
-							<div class="d-none border-top border-bottom" id="list"
+							<input class="form-control d-none" id="link-${ this._uniqueId }"/>
+							<div class="d-none border-top border-bottom" id="list-${ this._uniqueId }"
 							style="max-height: calc(100vh - 19rem); overflow-y:auto;">
 							</div>
 
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary close-modal-button">Close</button>
-							<button type="button" class="btn btn-danger d-none" id="unlinkButton">Unlink</button>
-							<button type="button" class="btn btn-primary modal-success-button">OK</button>
+							<button type="button" class="btn btn-secondary close-modal-button-${ this._uniqueId }">Close</button>
+							<button type="button" class="btn btn-danger d-none" id="unlinkButton-${ this._uniqueId }">Unlink</button>
+							<button type="button" class="btn btn-primary modal-success-button-${ this._uniqueId }">OK</button>
 						</div>
 					</div>
 				</div>
@@ -280,15 +284,15 @@ export default class LinkUI extends Plugin {
 	_showUI() {
 		const editor = this.editor;
 		const model = editor.model;
-		const unlinkButton = document.getElementById( 'unlinkButton' );
+		const unlinkButton = document.getElementById( `unlinkButton-${ this._uniqueId }` );
 		if ( !this._getSelectedLinkElement() ) {
 			// Show visual selection on a text without a link when the Modal is displayed.
 			// See https://github.com/ckeditor/ckeditor5/issues/4721.
 			this._showFakeVisualSelection();
 		} else {
-			const linkType = document.getElementById( 'linkType' );
-			const link = document.getElementById( 'link' );
-			const list = document.getElementById( 'list' );
+			const linkType = document.querySelector( `#linkType-${ this._uniqueId }` );
+			const link = document.querySelector( `#link-${ this._uniqueId }` );
+			const list = document.querySelector( `#list-${ this._uniqueId }` );
 			const selection = model.document.selection;
 			let linkHref = selection.getAttribute( 'linkHref' );
 			if ( !linkHref ) {
@@ -339,7 +343,7 @@ export default class LinkUI extends Plugin {
 		// hide form.
 		this._linkModal.hide();
 
-		const link = document.getElementById( 'link' );
+		const link = document.querySelector( `#link-${ this._uniqueId }` );
 		link.value = '';
 
 		this.stopListening( editor.ui, 'update' );
@@ -348,7 +352,7 @@ export default class LinkUI extends Plugin {
 		editor.editing.view.focus();
 
 		this._hideFakeVisualSelection();
-		clearInput();
+		this.clearInput();
 	}
 
 	_getSelectedLinkElement() {
@@ -502,7 +506,7 @@ export default class LinkUI extends Plugin {
 			} )
 			.catch( error => {
 				// disabled tool option in select dropdown
-				const toolElement = document.getElementById( 'toolSelectInput' );
+				const toolElement = document.getElementById( `toolSelectInput-${ this._uniqueId }` );
 				if ( toolElement ) {
 					toolElement.disabled = true;
 				}
@@ -532,6 +536,24 @@ export default class LinkUI extends Plugin {
 			this._toolHtml = toolHtmlGenerate( items );
 		}
 	}
+
+	/**
+	 * Clears input fields.
+	 *
+	 * @private
+	 */
+	clearInput() {
+		const linkType = document.querySelector( `#linkType-${ this._uniqueId }` );
+		const link = document.querySelector( `#link-${ this._uniqueId }` );
+		const list = document.querySelector( `#list-${ this._uniqueId }` );
+
+		linkType.value = '';
+		link.value = '';
+		list.innerHTML = '';
+
+		link.classList.add( 'd-none' );
+		list.classList.add( 'd-none' );
+	}
 }
 
 function toolHtmlGenerate( items ) {
@@ -545,19 +567,6 @@ function toolHtmlGenerate( items ) {
 		</div>
 		</li>`;
 	}, '' );
-}
-
-function clearInput() {
-	const linkType = document.getElementById( 'linkType' );
-	const link = document.getElementById( 'link' );
-	const list = document.getElementById( 'list' );
-
-	linkType.value = '';
-	link.value = '';
-	list.innerHTML = '';
-
-	link.classList.add( 'd-none' );
-	list.classList.add( 'd-none' );
 }
 
 // Returns a link element if there's one among the ancestors of the provided `Position`.
