@@ -147,8 +147,6 @@ Editor.defaultConfig = {
 			'|',
 			'insertTable',
 			'ckfinder',
-			'undo',
-			'redo',
 			'findAndReplace'
 		]
 	}, table: {
