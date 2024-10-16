@@ -33,7 +33,7 @@
 	</div>
 
 	<script src="../build/ckeditor.js"></script>
-	<!-- <script src="../ckfinder/ckfinder.js"></script> -->
+	<script src="../ckfinder/ckfinder.js"></script>
 	<script>
 
 		function getToolList() {
@@ -56,41 +56,8 @@
 			styleDefinitions = await getStyleItemList();
 
 			ClassicEditor.create(document.querySelector('#editor'), {
-				toolbar: {
-					items: [
-						'undo',
-						'redo',
-						'|',
-						'bold',
-						'italic',
-						'underline',
-						'strikethrough',
-						'superscript',
-						'subscript',
-						'|',
-						'highlight',
-						'specialCharacters',
-						'|',
-						'fontBackgroundColor',
-						'fontColor',
-						'fontSize',
-						'heading',
-						'removeFormat',
-						'|',
-						'outdent',
-						'indent',
-						'bulletedList',
-						'numberedList',
-						'|',
-						'blockQuote',
-						'link',
-						'horizontalLine',
-						'alignment',
-						'|',
-						'insertTable',
-						'imageUpload',
-						'findAndReplace'
-					]
+				ckfinder: { // Upload the images to the server using the CKFinder QuickUpload command.
+					uploadUrl: 'http://localhost:8888/bb-ckeditor5/packages/bb-ckeditor5-medimir/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json'
 				},
 				link: {
 					data: {

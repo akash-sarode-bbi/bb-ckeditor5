@@ -9,6 +9,7 @@ import AutoImage from '@ckeditor/ckeditor5-image/src/autoimage.js';
 import AutoLink from '@ckeditor/bb-ckeditor5-medimir-custom-link/src/autolink.js';
 import CKFinder from '@ckeditor/ckeditor5-ckfinder/src/ckfinder';
 import CKFinderUploadAdapter from '@ckeditor/ckeditor5-adapter-ckfinder/src/uploadadapter';
+import Base64UploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/base64uploadadapter';
 import BlockQuote from '@ckeditor/ckeditor5-block-quote/src/blockquote.js';
 import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
 import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials.js';
@@ -51,7 +52,6 @@ import TableColumnResize from '@ckeditor/ckeditor5-table/src/tablecolumnresize.j
 import TableProperties from '@ckeditor/ckeditor5-table/src/tableproperties';
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar.js';
 import { TextTransformation } from 'ckeditor5/src/typing';
-
 import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline';
 
 class Editor extends ClassicEditor { }
@@ -62,6 +62,7 @@ Editor.builtinPlugins = [
 	Autoformat,
 	AutoImage,
 	AutoLink,
+	Base64UploadAdapter,
 	BlockQuote,
 	Bold,
 	CKFinder,
@@ -146,6 +147,7 @@ Editor.defaultConfig = {
 			'alignment',
 			'|',
 			'insertTable',
+			'imageUpload',
 			'ckfinder',
 			'findAndReplace'
 		]
