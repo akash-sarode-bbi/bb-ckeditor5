@@ -48,9 +48,10 @@ import Superscript from '@ckeditor/ckeditor5-basic-styles/src/superscript';
 import Table from '@ckeditor/ckeditor5-table/src/table.js';
 import TableCaption from '@ckeditor/ckeditor5-table/src/tablecaption.js';
 import TableCellProperties from '@ckeditor/ckeditor5-table/src/tablecellproperties';
-import TableColumnResize from '@ckeditor/ckeditor5-table/src/tablecolumnresize.js';
+import TableColumnResize from '@ckeditor/ckeditor5-table/src/tablecolumnresize.js'; 
 import TableProperties from '@ckeditor/ckeditor5-table/src/tableproperties';
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar.js';
+import Templates from '@ckeditor/bb-ckeditor5-templatesV2';  
 import { TextTransformation } from 'ckeditor5/src/typing';
 import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline';
 
@@ -106,6 +107,7 @@ Editor.builtinPlugins = [
 	TableColumnResize,
 	TableProperties,
 	TableToolbar,
+	Templates,
 	TableCaption,
 	TextTransformation,
 	Underline
@@ -145,8 +147,9 @@ Editor.defaultConfig = {
 			'link',
 			'horizontalLine',
 			'alignment',
-			'|',
+			'|', 
 			'insertTable',
+			'templates',
 			'imageUpload',
 			'ckfinder',
 			'findAndReplace'
