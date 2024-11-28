@@ -1,0 +1,590 @@
+@charset "UTF-8";
+@font-face {
+    font-family: 'roboto-regular';
+    src: url('Roboto-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'roboto-bold';
+    src: url('Roboto-Bold.ttf');
+}
+
+ :root {
+    --body-font-size: 14px;
+    --body-line-height: 20px;
+    --standard-padding: 10px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.ck-content body {
+    user-select: none;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+    font-family: 'roboto-regular';
+    color: black;
+    font-size: var(--body-font-size);
+    line-height: var(--body-line-height);
+    text-align: left;
+    word-spacing: 0;
+}
+
+
+/*-----------------------Standard Text Definition------------------------*/
+
+.ck-content p {
+    margin: 0px;
+    padding: 0px 12.5px var(--standard-padding) 12.5px;
+}
+
+.ck-content p.table-text {
+    text-align: left;
+}
+
+.ck-content .indent {
+    margin-left: 10px;
+}
+
+.ck-content span.center {
+    vertical-align: middle;
+}
+
+.ck-content p.text-center {
+    text-align: center;
+    color: red;
+}
+
+.ck-content .text-color {
+    color: #0A89C6;
+}
+
+.ck-content span.color {
+    color: #0A89C6;
+}
+
+.ck-content p.fig-caption {
+    font-family: Roboto-bold;
+}
+
+
+/*-----------------------Headline Definition - 4 Level (Note: Display: none! Exception Level 4 clarify behavior with Editor)------------------------*/
+
+
+/* THESE ARE NOT DISPLAYED IN THE PAGE */
+
+.ck-content p.h1 {
+    color: #08338f;
+    font-weight: Roboto-bold;
+    /* display: none; */
+}
+
+.ck-content p.h2 {
+    color: #298A08;
+    font-weight: Roboto-bold;
+    /* display: none; */
+}
+
+.ck-content p.h3 {
+    color: #FF8000;
+    font-weight: Roboto-bold;
+    /* display: none; */
+}
+
+.ck-content p.h4 {
+    color: #585858;
+    font-weight: Roboto-bold;
+    /* display: none; */
+}
+
+
+/* Give margins between hidden elements and any other element*/
+
+.ck-content p.h1+* {
+    margin-top: var(--standard-padding) !important;
+}
+
+.ck-content p.h2+* {
+    margin-top: var(--standard-padding) !important;
+}
+
+.ck-content p.h3+* {
+    margin-top: var(--standard-padding) !important;
+}
+
+.ck-content p.h4+* {
+    margin-top: var(--standard-padding) !important;
+}
+
+
+/* remove top margins to avoid double margins between elements */
+
+.ck-content p+table {
+    margin-top: 0px !important;
+}
+
+.ck-content p+div {
+    margin-top: 0px !important;
+}
+
+.ck-content .header1+div.ref {
+    margin-top: var(--standard-padding) !important;
+}
+
+.ck-content .header2+div.ref {
+    margin-top: var(--standard-padding) !important;
+}
+
+.ck-content .header3+div.ref {
+    margin-top: var(--standard-padding) !important;
+}
+
+.ck-content .header4+div.ref {
+    margin-top: var(--standard-padding) !important;
+}
+
+
+/*-----------------------Enumeration with… - First Level------------------------*/
+
+.ck-content p.listlevel1:before {
+    content: "\2022";
+    padding-right: 10px;
+}
+
+.ck-content p.listlevel1 {
+    text-indent: -16.1px;
+    padding-left: 27px;
+}
+
+
+/*-----------------------Enumeration with Hyphen - Second Level------------------------*/
+
+.ck-content p.listlevel2::before {
+    content: "\2212";
+    padding-right: 2px;
+}
+
+.ck-content p.listlevel2 {
+    text-indent: -12px;
+    margin-left: 30px;
+}
+
+.ck-content p.listlevel3:before {
+    content: "\2212";
+    margin-right: 0.3em;
+}
+
+.ck-content p.listlevel3 {
+    text-indent: -0.5em;
+    margin-left: 2.3em;
+    /*1.15em;*/
+}
+
+
+/*-----------------------Standard Source Code with div box------------------------*/
+
+.ck-content p.reference {
+    font-size: calc(var(--body-font-size) * 0.92);
+    padding: 5px 5px 5px 5px !important;
+    line-height: calc(var(--body-line-height) * 0.9);
+}
+
+.ck-content div.ref,
+.ck-content div.hyp-comment {
+    -moz-border-radius: 1px;
+    -webkit-border-radius: 1px;
+    background: #F4F4F4;
+    /*or #f5f5f5 very light bg*/
+    border: 1px solid #D9D9F3;
+    padding: 2px 2px 0px 2px;
+    margin: var(--standard-padding) 10px var(--standard-padding) 10px;
+    border-radius: 1px;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+
+/*-----------------------Standard Source Code with images------------------------*/
+
+.ck-content div.legend {
+    margin: var(--standard-padding) 10px var(--standard-padding) 10px !important;
+}
+
+
+/*--------------------------Standard Table Declaration & paddings for td & th------------------------*/
+
+.ck-content table.recomm-table+table.recomm-table,
+.ck-content table.table+table.table {
+    margin-top: 15px;
+}
+
+.ck-content table.table,
+.ck-content table.recomm-table {
+    width: calc(100% - 20px);
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin: var(--standard-padding) 10px var(--standard-padding) 10px;
+    font-size: var(--body-font-size);
+    border: 1px solid rgb(182, 181, 181);
+    line-height: calc(var(--body-line-height) * 0.9);
+}
+
+.ck-content th,
+.ck-content td {
+    padding: 8px 8px 0px 8px;
+}
+
+.ck-content td>p,
+.ck-content th>p {
+    padding: 0px 0px var(--standard-padding) 0px;
+}
+
+
+/*-----------------------Numbered List, .ck-content first and second Level Note: also latin, .ck-content small/big letters ------------------------*/
+
+.ck-content li.enum1 {
+    margin: 0px 12.5px 0px 25px;
+    text-align: left;
+    padding-bottom: 5px;
+}
+
+
+/* -----------------Ordered list---------------*/
+
+.ck-content p.list:before {
+    content: "";
+    margin-right: 0.8em;
+}
+
+.ck-content p.list {
+    margin: 0px;
+    text-indent: -0.999em;
+    margin-left: 1.5em;
+    margin-bottom: 0.40em;
+    margin-top: 0.05em;
+    color: #2e2d30;
+}
+
+
+/*----------Standard Table Header Text declaration---------------*/
+
+.ck-content th.table-header1 {
+    background-color: #D8EEF6;
+}
+
+.ck-content th.table-header2 {
+    background-color: #CFD1D2;
+}
+
+
+/*----------Standard Table title Text declaration---------------*/
+
+.ck-content p.table-title1 {
+    color: #000000;
+    text-align: left;
+    font-family: Roboto-bold;
+}
+
+.ck-content p.table-title2 {
+    color: #000000;
+    text-align: left;
+    font-family: Roboto-bold;
+}
+
+.ck-content .table-title2-cent {
+    color: #000000;
+    text-align: center;
+    font-family: Roboto-bold;
+}
+
+
+/*---------Table columns and table rows border behavior----------*/
+
+.ck-content tr:first-child {
+    border-bottom: 1px solid #999999;
+}
+
+.ck-content tr+tr {
+    border-bottom: 1px solid #999999;
+}
+
+.ck-content td+td {
+    border-left: 1px solid #999999;
+}
+
+.ck-content td {
+    background: #ffffff;
+    vertical-align: top;
+    border-left: 1px solid #999999;
+}
+
+.ck-content th {
+    border-left: 1px solid #999999;
+}
+
+
+/*------------------- Table Text----------------------*/
+
+.ck-content p.table-text-white {
+    color: #ffffff;
+    text-align: left;
+}
+
+
+/*------------------------------------Additional Table Declarations/Exceptions -----------------------------------*/
+
+.ck-content td.center {
+    vertical-align: middle;
+}
+
+
+/*----------------------------Different Text Highlighting Character styles---------------------------*/
+
+
+/*---------Bold Text black----------*/
+
+.ck-content span.bold {
+    font-family: Roboto-bold;
+    color: red;
+}
+
+.ck-content .bold {
+    font-family: Roboto-bold;
+}
+
+.ck-content span.normal {
+    font-weight: normal;
+}
+
+.ck-content .normal {
+    font-weight: normal;
+}
+
+
+/*---------Bold Text any color----------*/
+
+.ck-content span.bold-colour {
+    font-family: Roboto-bold;
+    color: #6cb4bd;
+}
+
+.ck-content span.colour {
+    color: #6cb4bd;
+}
+
+.ck-content span.red {
+    color: #AF0727;
+    font-family: Roboto-bold;
+}
+
+.ck-content span.green {
+    color: green;
+    font-family: Roboto-bold;
+}
+
+.ck-content span.orange1 {
+    color: #f6d100;
+}
+
+
+/*---------Bold Text and Underlined----------*/
+
+.ck-content span.bold-underline {
+    font-family: Roboto-bold;
+    color: #f06e00;
+    text-decoration: underline;
+}
+
+.ck-content span.bold-italic {
+    font-family: Roboto-bold;
+    font-style: italic;
+}
+
+
+/*---------Italic Text--------------*/
+
+.ck-content span.italic {
+    font-style: italic;
+}
+
+
+/*---------Italic Text and Underlined--------------*/
+
+.ck-content span.italic-underline {
+    text-decoration: underline;
+    font-style: italic;
+}
+
+
+/*--------------Text Underlined--------------*/
+
+.ck-content span.underline {
+    text-decoration: underline;
+}
+
+
+/*--------------Text/Number/Sign superscripted/subscripted--------------*/
+
+.ck-content span.text-sup {
+    vertical-align: super;
+}
+
+.ck-content span.text-sub {
+    vertical-align: sub;
+}
+
+.ck-content .text-sub,
+.ck-content .text-sup {
+    font-size: 0.7em;
+    line-height: 100%;
+}
+
+.ck-content .left {
+    text-align: left;
+}
+
+.ck-content .blue {
+    color: #0A89C6;
+}
+
+
+/*--------------------td colors-----------------------*/
+
+.ck-content td.green2 {
+    background-color: #acc592;
+    font-weight: normal;
+    vertical-align: middle;
+}
+
+.ck-content td.green1 {
+    background-color: hsl(89, 44%, 86%);
+    vertical-align: middle;
+}
+
+.ck-content td.col-orange1 {
+    background-color: #f6d100;
+    vertical-align: middle;
+    color: white;
+}
+
+.ck-content td.col-orange {
+    background-color: #F69C00;
+    vertical-align: middle;
+    color: white;
+}
+
+.ck-content td.col-red1 {
+    background-color: #85140A;
+    vertical-align: middle;
+    color: white;
+}
+
+.ck-content td.col-red {
+    background-color: #C20B1A;
+    vertical-align: middle;
+    color: white;
+}
+
+.ck-content td.blue1 {
+    background-color: #c8e0ef;
+    vertical-align: top;
+}
+
+.ck-content td.col-gray1 {
+    background-color: #CFD1D2;
+    vertical-align: top;
+}
+
+.ck-content td.col-gray2 {
+    background-color: #ECEDED;
+    vertical-align: top;
+}
+
+.ck-content td.col-light_brown {
+    background-color: #EFD4C9;
+    vertical-align: middle;
+}
+
+.ck-content td.green {
+    background-color: #64B782;
+}
+
+.ck-content span.orange {
+    color: #cc7a00;
+}
+
+.ck-content td.class-i {
+    background-color: #64B782;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.ck-content td.class-2 {
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.ck-content td.class-ii-a {
+    background-color: #FFD000;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.ck-content td.class-ii-b {
+    background-color: #F2950B;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.ck-content td.class-iii {
+    background-color: #E8525F;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.ck-content td.level-a {
+    background-color: #008C9F;
+    /*color: #ffffff;*/
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.ck-content td.level-b {
+    background-color: #8EB7C3;
+    /*color: #ffffff;*/
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.ck-content td.level-c {
+    background-color: #CADBE0;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.ck-content p.listlevel5:before {
+    content: "\2212";
+    padding-right: 14px;
+}
+
+.ck-content p.listlevel5 {
+    text-indent: -22px;
+    padding-left: 53px;
+}
+
+.ck-content p.listlevel6:before {
+    content: "\2023";
+    padding-right: 12px;
+}
+
+.ck-content p.listlevel6 {
+    text-indent: -19px;
+    padding-left: 77px;
+}

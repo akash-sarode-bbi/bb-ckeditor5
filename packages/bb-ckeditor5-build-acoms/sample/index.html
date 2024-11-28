@@ -140,7 +140,7 @@
 		</div>
 	</div>
 
-	<script src="http://localhost:8888/acoms/media/lib/ckfinder/ckfinder.js"></script>
+	<script src="http://localhost:8888/ckfinder/ckfinder.js"></script>
 	<script src="../build/ckeditor.js"></script>
 	<script>
 		let styleItem;
@@ -176,6 +176,7 @@
 						return editor;
 					})
 					.catch(error => {
+						console.error( error.stack );
 						console.error('There was a problem initializing the editor.', error);
 					});
 			});
@@ -299,7 +300,7 @@
 			watchdog.create(editorData, editorConfig);
 		}
 
-		
+
 		const removeChilds = (parent) => {
 			while (parent.lastChild) {
 				parent.removeChild(parent.lastChild);
@@ -311,7 +312,7 @@
 				method: 'get',
 				mode: 'no-cors'
 			};
-			return fetch(`http://localhost:8888/acoms/media/data/guideline/ENAS103/ENAS103_TOC.json`, fetchOptions)
+			return fetch(`media/ENAS113_TOC.json`, fetchOptions)
 				.then(response => response.json());
 		}
 
@@ -320,7 +321,7 @@
 				method: 'get',
 				mode: 'no-cors'
 			};
-			return fetch(`http://localhost:8888/acoms/media/data/guideline/ENAS103/Abbreviations.json`, fetchOptions)
+			return fetch(`media/Abbreviations.json`, fetchOptions)
 				.then(response => response.json());
 		}
 
@@ -330,7 +331,7 @@
 				mode: 'no-cors'
 			};
 			return fetch(
-					`http://localhost:8888/acoms/controllers/controller.guidelineOperations.php?operationType=getGuidelineReferenceList&guidelineId=112`,
+					`media/Reference.json`,
 					fetchOptions)
 				.then(response => response.json());
 		}
@@ -379,7 +380,7 @@
 			try {
 				// Get HTML head element
 				var head = document.getElementsByTagName('HEAD')[0];
- 
+
 				// Create new link Element
 				var link = document.createElement('link');
 
@@ -388,7 +389,7 @@
 
 				link.type = 'text/css';
 
-				link.href = 'http://localhost:8888/acoms/media/include/ckeditor/media/css/ckeditor.css';
+				link.href = 'media/ckeditor.css';
 
 				// Append link element to HTML head
 				head.appendChild(link);
@@ -401,10 +402,10 @@
 			styleItem = await getStyleItemList();
 			createEditor( styleItem, "test-decoupled-editor-18-02" );
 		}
-		
+
 		async function initializeEditor( Chapter_id ) {
 
-			/* check if existing editor instance is created/loaded or not 
+			/* check if existing editor instance is created/loaded or not
 			if yes then destroy an existing editor and then create new one otherwise only create new editor instance*/
 			// if (existingEditor) {
 				editor.destroy()
@@ -425,9 +426,9 @@
 			// }
     	}
 
-		function capitalize(input) {  
-			return input.toLowerCase().split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');  
-		} 
+		function capitalize(input) {
+			return input.toLowerCase().split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
+		}
 
 		loadEditor();
 	</script>

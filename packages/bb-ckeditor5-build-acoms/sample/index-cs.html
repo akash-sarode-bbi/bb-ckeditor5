@@ -140,7 +140,7 @@
 		</div>
 	</div>
 
-	<script src="http://localhost:8888/acoms/media/lib/ckfinder/ckfinder.js"></script>
+	<script src="http://localhost:8888/ckfinder/ckfinder.js"></script>
 	<script src="../build/ckeditor-cs.js"></script>
 	<script>
 		function createEditor( styleDefinitions ) {
@@ -291,7 +291,7 @@
 				method: 'get',
 				mode: 'no-cors'
 			};
-			return fetch(`http://localhost:8888/acoms/media/data/guideline/ENAS103/ENAS103_TOC.json`, fetchOptions)
+			return fetch(`media/ENAS113_TOC.json`, fetchOptions)
 				.then(response => response.json());
 		}
 
@@ -300,7 +300,7 @@
 				method: 'get',
 				mode: 'no-cors'
 			};
-			return fetch(`http://localhost:8888/acoms/media/data/guideline/ENAS103/Abbreviations.json`, fetchOptions)
+			return fetch(`media/Abbreviations.json`, fetchOptions)
 				.then(response => response.json());
 		}
 
@@ -310,7 +310,7 @@
 				mode: 'no-cors'
 			};
 			return fetch(
-					`http://localhost:8888/acoms/controllers/controller.guidelineOperations.php?operationType=getGuidelineReferenceList&guidelineId=112`,
+					`media/Reference.json`,
 					fetchOptions)
 				.then(response => response.json());
 		}
@@ -359,7 +359,7 @@
 			try {
 				// Get HTML head element
 				var head = document.getElementsByTagName('HEAD')[0];
- 
+
 				// Create new link Element
 				var link = document.createElement('link');
 
@@ -368,7 +368,7 @@
 
 				link.type = 'text/css';
 
-				link.href = 'http://localhost:8888/acoms/media/include/ckeditor/media/css/ckeditor.css';
+				link.href = 'media/ckeditor.css';
 
 				// Append link element to HTML head
 				head.appendChild(link);
@@ -381,10 +381,10 @@
 			const styleItem = await getStyleItemList();
 			createEditor( styleItem );
 		}
-		
-		function capitalize(input) {  
-			return input.toLowerCase().split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');  
-		} 
+
+		function capitalize(input) {
+			return input.toLowerCase().split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
+		}
 
 		loadEditor();
 	</script>

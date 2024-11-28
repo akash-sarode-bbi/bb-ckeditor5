@@ -1,0 +1,38 @@
+[
+	{
+		"ReferenceId": 103,
+		"ReferenceUniqueId": "REF_103_8wSUP9fYmZ_GL_ENAS115",
+		"GuidelineName": "BB GL-4 Test",
+		"Title": "q",
+		"JournalName": "q",
+		"JournalNumber": "q",
+		"PageRange": "2",
+		"PublicationDate": "2022-05-12",
+		"Doi": "123",
+		"AuthorJson": "[{\"first_name\":\"qq1\",\"last_name\":\"qq1\"}]",
+		"MetadataJson": "",
+		"FileLink": "https://s3.eu-west-1.amazonaws.com/bbi.webdata.2014/ACOMS/_normal/guideline_records/ENAS115/reference/REF_103_8wSUP9fYmZ_GL_ENAS115_1652359615.pdf",
+		"AddedBy": 76,
+		"EditedBy": 192,
+		"CreatedTimestamp": "2022-05-12 12:44:27",
+		"UpdatedTimestamp": "2022-05-12 12:50:30"
+	},
+  {
+		"ReferenceId": 103,
+		"ReferenceUniqueId": "REF_104_8wSUP9fYmZ_GL_ENAS115",
+		"GuidelineName": "BB GL-4 Test",
+		"Title": "q 1",
+		"JournalName": "q 1",
+		"JournalNumber": "q 1",
+		"PageRange": "2",
+		"PublicationDate": "2022-06-12",
+		"Doi": "122",
+		"AuthorJson": "[{\"first_name\":\"qq12\",\"last_name\":\"qq12\"}]",
+		"MetadataJson": "",
+		"FileLink": "https://s3.eu-west-1.amazonaws.com/bbi.webdata.2014/ACOMS/_normal/guideline_records/ENAS115/reference/REF_103_8wSUP9fYmZ_GL_ENAS115_1652359615.pdf",
+		"AddedBy": 76,
+		"EditedBy": 192,
+		"CreatedTimestamp": "2022-05-12 12:44:27",
+		"UpdatedTimestamp": "2022-05-12 12:50:30"
+	}
+]

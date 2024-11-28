@@ -1,0 +1,494 @@
+[
+    {
+      "abbr": "Hb",
+      "description": "haemoglobin"
+    },
+    {
+      "abbr": "cTn T",
+      "description": "cardiac troponin T"
+    },
+    {
+      "abbr": "cTn l",
+      "description": "cardiac troponin I"
+    },
+    {
+      "abbr": "VEGFi",
+      "description": "vascular endothelial grow factor inhibitor"
+    },
+    {
+      "abbr": "BTKi",
+      "description": "Bruton tyrosine kinase inhibitors"
+    },
+    {
+      "abbr": "HbA1c",
+      "description": "glycated haemoglobin"
+    },
+    {
+      "abbr": "eGFR",
+      "description": "estimated glomerular filtration rate"
+    },
+    {
+      "abbr": "pulmonary arterial hypertension. HF",
+      "description": "heart failure"
+    },
+    {
+      "abbr": "LVESDi",
+      "description": "left ventricular end-systolic dimension index"
+    },
+    {
+      "abbr": "NT-pro BNP",
+      "description": "N-terminal pro-B-type natriuretic peptide."
+    },
+    {
+      "abbr": "iwFR",
+      "description": "instantaneous wave-free ratio"
+    },
+    {
+      "abbr": "FXa",
+      "description": "factor Xa"
+    },
+    {
+      "abbr": "FIIa",
+      "description": "factor IIa"
+    },
+    {
+      "abbr": "o.d.",
+      "description": "once daily."
+    },
+    {
+      "abbr": "i.v.",
+      "description": "intravenous"
+    },
+    {
+      "abbr": "Cmax",
+      "description": "maximum serum concentration"
+    },
+    {
+      "abbr": "b.i.d.",
+      "description": "twice a day"
+    },
+    {
+      "abbr": "SGLT-2",
+      "description": "sodium-glucose co-transporter-2."
+    },
+    {
+      "abbr": "b.p.m.",
+      "description": "beats per minute"
+    },
+    {
+      "abbr": "CEA:",
+      "description": "carotid endarterectomy"
+    },
+    {
+      "abbr": "hs-cTn T",
+      "description": "high-sensitivity cardiac troponin T"
+    },
+    {
+      "abbr": "hs-cTn I",
+      "description": "high-sensitivity cardiac troponin"
+    },
+    {
+      "abbr": "hs-cTn",
+      "description": "high-sensitivity cardiac troponin"
+    },
+    {
+      "abbr": "NT-proBNP",
+      "description": "N-terminal pro-B-type natriuretic peptide"
+    },
+    {
+      "abbr": "Y",
+      "description": "yes."
+    },
+    {
+      "abbr": "N",
+      "description": "no"
+    },
+    {
+      "abbr": "MINS",
+      "description": "myocardial injury following non-cardiac surgery"
+    },
+    {
+      "abbr": "HR",
+      "description": "heart rate"
+    },
+    {
+      "abbr": "CK",
+      "description": "creatinine kinase"
+    },
+    {
+      "abbr": "PE",
+      "description": "pulmonary embolism"
+    },
+    {
+      "abbr": "NSAID",
+      "description": "non-steroidal anti-inflammatory drug."
+    },
+    {
+      "abbr": "TIA",
+      "description": "transient ischaemic attack."
+    },
+    {
+      "abbr": "CPET",
+      "description": "cardiopulmonary exercise testing"
+    },
+    {
+      "abbr": "PAD",
+      "description": "peripheral artery disease."
+    },
+    {
+      "abbr": "PAH",
+      "description": "pulmonary arterial hypertension."
+    },
+    {
+      "abbr": "ACHD",
+      "description": "Adults with congenital heart disease. PAH"
+    },
+    {
+      "abbr": "ICD",
+      "description": "implantable cardioverter- defibrillator"
+    },
+    {
+      "abbr": "TE",
+      "description": "thromboembolism"
+    },
+    {
+      "abbr": "PVCs",
+      "description": "premature ventricular contractions"
+    },
+    {
+      "abbr": "MRI",
+      "description": "magnetic resonance imaging"
+    },
+    {
+      "abbr": "CT",
+      "description": "computer tomography"
+    },
+    {
+      "abbr": "OMT",
+      "description": "optimal medical therapy"
+    },
+    {
+      "abbr": "CCB",
+      "description": "calcium channel blocker"
+    },
+    {
+      "abbr": "SVT",
+      "description": "supraventricular tachycardia"
+    },
+    {
+      "abbr": "CRT",
+      "description": "cardiac resynchronization therapy"
+    },
+    {
+      "abbr": "MR",
+      "description": "mitral valve regurgitation"
+    },
+    {
+      "abbr": "PMC",
+      "description": "percutaneous mitral commissurotomy"
+    },
+    {
+      "abbr": "SPAP",
+      "description": "systolic pulmonary artery pressure"
+    },
+    {
+      "abbr": "BSA",
+      "description": "body surface area"
+    },
+    {
+      "abbr": "LVESD",
+      "description": "left ventricular end-systolic diameter"
+    },
+    {
+      "abbr": "AR",
+      "description": "aortic regurgitation"
+    },
+    {
+      "abbr": "TEE",
+      "description": "transoesophageal echocardiography"
+    },
+    {
+      "abbr": "TAVI",
+      "description": "transcatheter aortic valve implantation"
+    },
+    {
+      "abbr": "SAVR",
+      "description": "surgical aortic valve replacement"
+    },
+    {
+      "abbr": "LVEF",
+      "description": "left ventricular ejection fraction"
+    },
+    {
+      "abbr": "BAV",
+      "description": "balloon aortic valvuloplasty"
+    },
+    {
+      "abbr": "MS",
+      "description": "mitral stenosis"
+    },
+    {
+      "abbr": "AS",
+      "description": "aortic stenosis"
+    },
+    {
+      "abbr": "MCS",
+      "description": "mechanical circulatory support"
+    },
+    {
+      "abbr": "VAD",
+      "description": "ventricular assist device."
+    },
+    {
+      "abbr": "BMS",
+      "description": "bare metal stent"
+    },
+    {
+      "abbr": "DES",
+      "description": "drug-eluting stent"
+    },
+    {
+      "abbr": "FFR",
+      "description": "fractional flow reserve"
+    },
+    {
+      "abbr": "RBC",
+      "description": "red blood cell."
+    },
+    {
+      "abbr": "MHV",
+      "description": "mechanical heart valve"
+    },
+    {
+      "abbr": "PCC",
+      "description": "prothrombin complex concentrate"
+    },
+    {
+      "abbr": "UFH",
+      "description": "unfractionated heparin."
+    },
+    {
+      "abbr": "LMWH",
+      "description": "low molecular weight heparin"
+    },
+    {
+      "abbr": "GFR",
+      "description": "glomerular filtration rate"
+    },
+    {
+      "abbr": "AVR",
+      "description": "aortic valve replacement"
+    },
+    {
+      "abbr": "VTE",
+      "description": "venous thromboembolism"
+    },
+    {
+      "abbr": "VKA",
+      "description": "vitamin K antagonist"
+    },
+    {
+      "abbr": "OAC",
+      "description": "oral anticoagulant"
+    },
+    {
+      "abbr": "STEMI",
+      "description": "ST-elevation myocardial infarction."
+    },
+    {
+      "abbr": "FU",
+      "description": "follow-up"
+    },
+    {
+      "abbr": "GPI",
+      "description": "glycoprotein IIb/IIIa inhibitors"
+    },
+    {
+      "abbr": "ACS",
+      "description": "acute coronary syndrome"
+    },
+    {
+      "abbr": "DAPT",
+      "description": "dual antiplatelet therapy"
+    },
+    {
+      "abbr": "AAA",
+      "description": "abdominal aortic aneurysm."
+    },
+    {
+      "abbr": "VKORC1",
+      "description": "vitamin K epoxide reductase complex 1."
+    },
+    {
+      "abbr": "NOAC",
+      "description": "non-vitamin K antagonist oral anticoagulant"
+    },
+    {
+      "abbr": "INR",
+      "description": "International normalized ratio"
+    },
+    {
+      "abbr": "NR",
+      "description": "non-relevant"
+    },
+    {
+      "abbr": "LD",
+      "description": "loading dose"
+    },
+    {
+      "abbr": "ASA",
+      "description": "acetylsalicylic acid"
+    },
+    {
+      "abbr": "RAAS",
+      "description": "renin-angiotensin-aldosterone system"
+    },
+    {
+      "abbr": "HF",
+      "description": "heart failure"
+    },
+    {
+      "abbr": "NSTE-ACS",
+      "description": "non-ST-segment elevation acute coronary syndrome."
+    },
+    {
+      "abbr": "CCS",
+      "description": "chronic coronary syndrome"
+    },
+    {
+      "abbr": "ICA",
+      "description": "invasive coronary angiography"
+    },
+    {
+      "abbr": "CCTA",
+      "description": "coronary computed tomography angiography"
+    },
+    {
+      "abbr": "ST",
+      "description": "ST-segment"
+    },
+    {
+      "abbr": "CABG",
+      "description": "Coronary artery bypass graft"
+    },
+    {
+      "abbr": "PCI",
+      "description": "percutaneous coronary intervention"
+    },
+    {
+      "abbr": "RCRI",
+      "description": "Revised Cardiac Risk Index"
+    },
+    {
+      "abbr": "LV",
+      "description": "left ventricular"
+    },
+    {
+      "abbr": "FOCUS",
+      "description": "focused cardiac ultrasound"
+    },
+    {
+      "abbr": "ULN",
+      "description": "upper limit of normal."
+    },
+    {
+      "abbr": "PMI",
+      "description": "peri-operative myocardial infarction/injury"
+    },
+    {
+      "abbr": "AF",
+      "description": "atrial fibrillation"
+    },
+    {
+      "abbr": "NSC",
+      "description": "non-cardiac surgery"
+    },
+    {
+      "abbr": "CAD",
+      "description": "coronary artery disease"
+    },
+    {
+      "abbr": "TTE",
+      "description": "transthoracic echocardiography."
+    },
+    {
+      "abbr": "BNP",
+      "description": "B-type natriuretic peptide"
+    },
+    {
+      "abbr": "ECG",
+      "description": "electrocardiogram"
+    },
+    {
+      "abbr": "CVD",
+      "description": "cardiovascular disease"
+    },
+    {
+      "abbr": "CAS",
+      "description": "carotid artery stenting"
+    },
+    {
+      "abbr": "CEA",
+      "description": "carotid endarterectomy"
+    },
+    {
+      "abbr": "VATS",
+      "description": "video-assisted thoracic surgery."
+    },
+    {
+      "abbr": "MI",
+      "description": "myocardial infarction"
+    },
+    {
+      "abbr": "NCS",
+      "description": "non-cardiac surgery"
+    },
+    {
+      "abbr": "CV",
+      "description": "cardiovascular"
+    },
+    {
+      "abbr": "ESC",
+      "description": "European Society of Cardiology"
+    },
+    {
+      "abbr": "BMI",
+      "description": "body mass index"
+    },
+    {
+      "abbr": "VHD",
+      "description": "Valvu­lar heart dis­ease"
+    },
+    {
+      "abbr": "VT",
+      "description": "ven­tric­u­lar tachy­car­dia"
+    },
+    {
+      "abbr": "AADs",
+      "description": "An­tiar­rhyth­mic drugs"
+    },
+    {
+      "abbr": "CIED",
+      "description": "Car­diac im­plantable elec­tron­ic de­vice"
+    },
+    {
+      "abbr": "BP",
+      "description": "Blood pres­sure"
+    },
+    {
+      "abbr": "ESVS",
+      "description": "Eu­ro­pean So­ci­ety for Vas­cu­lar Surgery"
+    },
+    {
+      "abbr": "CHA2­DS2­VASc",
+      "description": "Con­ges­tive heart fail­ure, Hy­per­ten­sion, Age ≥75 years, Di­a­betes mel­li­tus, Stroke, Vas­cu­lar dis­ease, Age 65–74 years, Sex cat­e­go­ry (fe­male)"
+    },
+    {
+      "abbr": "CHD",
+      "description": "Coro­nary heart dis­ease/Con­gen­i­tal heart dis­ease"
+    },
+    {
+      "abbr": "",
+      "description": ""
+    }
+  ]
